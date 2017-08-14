@@ -7,7 +7,7 @@
   "author": "Liam Stokinger",
   "main": "main.js",
   "scripts": {
-    "tsc": "tsc --outDir 'dist/server-temp' && rm -rf dist/server && mkdir dist/server && cp -r dist/server-temp/src/server/* dist/server && rm -rf dist/server-temp/",
+    "tsc": "tsc --outDir 'dist/server-temp' -p tsconfig.electron.json && rm -rf dist/server && mkdir dist/server && cp -r dist/server-temp/src/server/* dist/server && rm -rf dist/environments && mkdir dist/environments && cp -r dist/server-temp/src/environments/* dist/environments  && rm -rf dist/server-temp/",
     "build-electron": "ng build --base-href . && npm run tsc",
     "start": "npm run build-electron && electron main.js",
     "package-mac": "npm run build-electron && electron-packager . --overwrite --asar=true --platform=darwin --arch=x64 --prune=true --out=release-builds",
