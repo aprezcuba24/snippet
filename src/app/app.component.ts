@@ -1,3 +1,4 @@
+import { IpcClientService } from './services/ipc.client.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -7,7 +8,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'environment.db_connection';
-  constructor() {
-    console.log('addd');
+  constructor(
+    private ipc: IpcClientService
+  ) {
+    this.ipc.send('init');
+    this.ipc.on('ready', this.test.bind(this))
+  }
+  test(event, arg: any) {
+    console.log(arg)
   }
 }
