@@ -1,1 +1,0 @@
-var electron = require('electron');

@@ -1,8 +1,6 @@
 import { Observable, Observer } from 'rxjs/Rx';
-import { Injectable } from '@angular/core';
-// import * as electron from 'electron';
+import { Injectable, NgZone } from '@angular/core';
 declare let window: any;
-declare let electron: any;
 
 export type IpcClientData = {
   event: any,
@@ -12,25 +10,26 @@ export type IpcClientData = {
 @Injectable()
 export class IpcClientService {
 
-  // private ipc = window.require('electron').ipcRenderer;
-  private ipc = electron.ipcRenderer;
+  private ipc = window.require('electron').ipcRenderer;
+
+  constructor(
+    private zone: NgZone,
+  ) {}
 
   on(listener: string) {
     return Observable.create((observer: Observer<IpcClientData>) => {
-      // observer.next({
-      //   event: '',
-      //   data: '',
-      // });
       this.ipc.on(listener, (event, arg) => {
-        arg = JSON.parse(arg);
-        if (arg.error) {
-          observer.error(arg.error);
-        } else {
-          observer.next({
-            event: event,
-            data: arg.data,
-          })
-        }
+        this.zone.run(() => {
+          arg = JSON.parse(arg);
+          if (arg.error) {
+            observer.error(arg.error);
+          } else {
+            observer.next({
+              event: event,
+              data: arg.data,
+            })
+          }
+        })
       });
     });
   }
