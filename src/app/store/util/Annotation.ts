@@ -6,22 +6,18 @@ const REDUCER_KEY = Symbol("Reducer");
 export const getReducers = function (target: any) {
     let classData = Reflect.getMetadata(REDUCER_KEY, target);
     let redurcers = [];
+    let mainReducer = {};
     for (let key in target.prototype) {
-        if (!target.prototype[key].isActionHandler) {
+        if (!target.prototype[key].__actionHandlerState) {
             continue;
         }
-        redurcers.push(target.prototype[key]);
-    }
-    let mainReducer = {};
-    mainReducer[classData.stateNamepase] = function (state, action) {
-        if (!state) {
-            state = classData.initialState;
+        let stateName = target.prototype[key].__actionHandlerState;
+        mainReducer[classData.stateNamepase + '.' + stateName] = function (state, action) {
+            if (!state) {
+                state = classData.initialState[stateName];
+            }
+            return target.prototype[key](state, action)
         }
-        for (let index in redurcers) {
-            state = redurcers[index](state, action);
-        }
-
-        return state;
     }
 
     return mainReducer;
@@ -34,26 +30,20 @@ export const Reducer = function (stateNamepase, initialState = {}) {
     });
 }
 
-export const ActionHandler = function (actionType, replace = null): MethodDecorator {
+export const ActionHandler = function (actionType: string | string[], state: string): MethodDecorator {
     return function (target: Function, key: string, descriptor: any) {
         var originalMethod = descriptor.value;
         descriptor.value = function (state, action: Action) {
-            if (action.type != actionType) {
+            if (actionType instanceof Array) {
+                if (!actionType.filter(value => value == action.type)) {
+                    return state;
+                }
+            } else if (action.type != actionType) {
                 return state;
             }
-            let value = originalMethod.apply(this, [state, action]);
-            if (!replace) {
-                return value;
-            }
-            if (value == state[replace]) {
-                return state;
-            }
-            let newState = {};
-            newState[replace] = value;
-
-            return { ...state, ...newState };
+            return originalMethod.apply(this, [state, action]);
         }
-        descriptor.value.isActionHandler = true;
+        descriptor.value.__actionHandlerState = state;
 
         return descriptor;
     }

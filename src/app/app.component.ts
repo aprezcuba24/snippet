@@ -1,9 +1,7 @@
 import { Observable } from 'rxjs/Rx';
 import { ApplicationStore } from './store';
-import { IpcClientService, IpcClientData } from './services/ipc.client.service';
-import { ChangeDetectionStrategy, Component, NgZone, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as AppStore from './store';
 
 @Component({
   selector: 'app-root',
@@ -16,24 +14,14 @@ export class AppComponent implements OnInit {
   title$: Observable<string>;
 
   constructor(
-    private store: Store<AppStore.AppState>,
-    private ipc: IpcClientService,
-    private zone: NgZone,
+    private store: Store<any>
   ) {}
 
   ngOnInit() {
-    this.title$ = this.store.select('application')
-      .map((state: AppStore.ApplicationState) => state.ready)
-      .distinctUntilChanged()
-      .filter(data => data == true)
-      .map(data => {
-        return 'Ya conectado';
-      })
+    this.title$ = this.store.select('application.ready')
+      .map(data => 'Ya conectado')
       ;
-    this.store.select('application')
-      .map((state: AppStore.ApplicationState) => state.init_error)
-      .distinctUntilChanged()
-      .filter(err => err != "")
+    this.store.select('application.init_error')
       .subscribe(err => {
         console.log(err);
       })

@@ -6,10 +6,6 @@ import { getReducers } from './util/Annotation';
 
 export * from './ApplicationStore';
 
-export interface AppState {
-    application: Application.ApplicationState,
-}
-
 export const reducers = Object.assign({},
     getReducers(Application.ApplicationStore),
 );

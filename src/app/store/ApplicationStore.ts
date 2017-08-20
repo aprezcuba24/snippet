@@ -1,15 +1,9 @@
-import { AppState } from './index';
 import { Observable } from 'rxjs/Rx';
 import { IpcClientService, IpcClientData } from './../services/ipc.client.service';
 import { Effect, Actions } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Reducer, ActionHandler } from './util/Annotation';
 import { Injectable } from '@angular/core';
-
-export type ApplicationState = {
-    ready: boolean,
-    init_error: string,
-};
 
 @Injectable()
 @Reducer('application', {
@@ -24,7 +18,6 @@ export class ApplicationStore {
     constructor(
         protected actions$: Actions,
         private ipc: IpcClientService,
-        private store: Store<AppState>
     ) {
     }
 
@@ -42,12 +35,12 @@ export class ApplicationStore {
     ;
 
     @ActionHandler(ApplicationStore.READY, 'ready')
-    readyAction(state: ApplicationState, action: Action) {
+    readyAction(state: any, action: Action) {
         return true;
     }
 
     @ActionHandler(ApplicationStore.INIT_ERROR, 'init_error')
-    initErrorAction(state: ApplicationState, action: Action) {
+    initErrorAction(state: any, action: Action) {
         return action.payload;
     }
 }
