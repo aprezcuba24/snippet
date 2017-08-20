@@ -1,40 +1,53 @@
+import { AppState } from './index';
+import { Observable } from 'rxjs/Rx';
+import { IpcClientService, IpcClientData } from './../services/ipc.client.service';
 import { Effect, Actions } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Reducer, ActionHandler } from './util/Annotation';
 import { Injectable } from '@angular/core';
 
 export type ApplicationState = {
     ready: boolean,
+    init_error: string,
 };
 
 @Injectable()
 @Reducer('application', {
     ready: false,
+    init_error: '',
 })
 export class ApplicationStore {
     static readonly INIT = '[APP] INIT';
     static readonly READY = '[APP] READY';
+    static readonly INIT_ERROR = '[APP] INIT_ERROR';
 
     constructor(
-        protected actions$: Actions
-    ) { }
+        protected actions$: Actions,
+        private ipc: IpcClientService,
+        private store: Store<AppState>
+    ) {
+    }
 
-    // @Effect() removeMessage$ = this.actions$.ofType(ApplicationStore.NEW_MESSAGE)
-    //     .delay(3000)
-    //     .map(data => {
-    //         return {
-    //             type: ApplicationStore.REMOVE_MESSAGE,
-    //         }
-    //     })
-    // ;
+    @Effect() onInit$ = this.actions$.ofType(ApplicationStore.INIT)
+        .switchMap((action: Action) => this.ipc.send('init'))
+        .map((data: IpcClientData) => {
+            return {
+                type: ApplicationStore.READY
+            }
+        })
+        .catch(err => Observable.of({
+            type: ApplicationStore.INIT_ERROR,
+            payload: err,
+        }))
+    ;
 
-    // @ActionHandler(ApplicationStore.NEW_MESSAGE, 'message')
-    // newMessageAction(state: ApplicationState, action: Action) {
-    //     return action.payload;
-    // }
+    @ActionHandler(ApplicationStore.READY, 'ready')
+    readyAction(state: ApplicationState, action: Action) {
+        return true;
+    }
 
-    // @ActionHandler(ApplicationStore.REMOVE_MESSAGE, 'message')
-    // removeMessageAction(state: ApplicationState, action: Action) {
-    //     return '';
-    // }
+    @ActionHandler(ApplicationStore.INIT_ERROR, 'init_error')
+    initErrorAction(state: ApplicationState, action: Action) {
+        return action.payload;
+    }
 }
