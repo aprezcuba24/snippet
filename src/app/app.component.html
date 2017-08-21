@@ -1,26 +1,16 @@
 <!-- Preloader -->
-  <!-- <div class="preloader">
-    <div class="cssload-speeding-wheel"></div>
-  </div> -->
+<div class="preloader" *ngIf="!(appReady$|async)">
+  <div class="cssload-speeding-wheel"></div>
+</div>
 <div id="wrapper">
   <!-- Navigation -->
   <nav class="navbar navbar-default navbar-static-top m-b-0">
     <div class="navbar-header">
-      <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse">
-          <i class="ti-menu"></i>
-        </a>
       <div class="top-left-part">
         <a class="logo" href="#">
-            Snippets
-          </a>
+          Snippets
+        </a>
       </div>
-      <ul class="nav navbar-top-links navbar-left hidden-xs">
-        <li>
-          <a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light">
-              <i class="icon-arrow-left-circle ti-menu"></i>
-            </a>
-        </li>
-      </ul>
     </div>
   </nav>
   <!-- Left navbar-header -->
@@ -49,6 +39,9 @@
   <!-- Page Content -->
   <div id="page-wrapper">
     <div class="container-fluid">
+      <div class="preloader pagerReady" *ngIf="!(pageReady$|async) && appReady$|async">
+        <div class="cssload-speeding-wheel"></div>
+      </div>
       <div class="row bg-title">
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
           <h4 class="page-title">Ecom-Dashboard</h4>
@@ -61,16 +54,17 @@
         </div>
       </div>
       <!-- /.row -->
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="white-box">
-           88 {{ title$|async }} 99
+      <div class="content">
+          <div class="col-xs-12">
+            <div class="white-box">
+              88 {{ title$|async }} 99
+              <!-- <router-outlet></router-outlet> -->
+            </div>
           </div>
-        </div>
       </div>
     </div>
     <!-- /.container-fluid -->
-    <footer class="footer text-center"> 2016 &copy; Elite Admin brought to you by themedesigner.in </footer>
+    <footer class="footer text-center"> 2017 &copy; Renier Ricardo Figueredo (aprezcuba24@gmail.com) </footer>
   </div>
   <!-- /#page-wrapper -->
 </div>

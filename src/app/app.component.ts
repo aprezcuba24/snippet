@@ -11,16 +11,15 @@ import { Store } from '@ngrx/store';
 })
 export class AppComponent implements OnInit {
 
-  title$: Observable<string>;
+  pageReady$: Observable<boolean>;
+  appReady$: Observable<boolean>;
 
   constructor(
     private store: Store<any>
   ) {}
 
   ngOnInit() {
-    this.title$ = this.store.select('application.ready')
-      .map(data => 'Ya conectado')
-      ;
+    this.appReady$ = this.store.select('application.ready');
     this.store.select('application.init_error')
       .subscribe(err => {
         console.log(err);

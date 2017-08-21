@@ -14,7 +14,7 @@ export class MainProcess {
     }
 
     onInit(data: IpcData) {
-        this.connectBd().subscribe(
+        this.connectBd().take(1).subscribe(
             () => {
                 this.ipc.send('init', data.event, {
                     data: true,

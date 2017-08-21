@@ -1,0 +1,5 @@
+.preloader.pagerReady {
+    top: 138px;
+    height: calc(100vh - 223px);
+    width: calc(100vW - 265px);
+}
