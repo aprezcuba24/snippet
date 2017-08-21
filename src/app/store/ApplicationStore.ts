@@ -9,11 +9,13 @@ import { Injectable } from '@angular/core';
 @Reducer('application', {
     ready: false,
     init_error: '',
+    page_ready: false,
 })
 export class ApplicationStore {
     static readonly INIT = '[APP] INIT';
     static readonly READY = '[APP] READY';
     static readonly INIT_ERROR = '[APP] INIT_ERROR';
+    static readonly PAGE_READY = '[APP] PAGE_READY';
 
     constructor(
         protected actions$: Actions,
@@ -41,6 +43,11 @@ export class ApplicationStore {
 
     @ActionHandler(ApplicationStore.INIT_ERROR, 'init_error')
     initErrorAction(state: any, action: Action) {
+        return action.payload;
+    }
+
+    @ActionHandler(ApplicationStore.PAGE_READY, 'page_ready')
+    pageReadyAction(state: any, action: Action) {
         return action.payload;
     }
 }

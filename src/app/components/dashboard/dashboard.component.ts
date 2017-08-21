@@ -1,3 +1,5 @@
+import { ApplicationStore } from './../../store/ApplicationStore';
+import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private store: Store<any>
+  ) { }
 
   ngOnInit() {
+    this.store.dispatch({
+      type: ApplicationStore.PAGE_READY,
+      payload: true,
+    });
   }
-
 }

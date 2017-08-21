@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.appReady$ = this.store.select('application.ready');
+    this.pageReady$ = this.store.select('application.page_ready');
     this.store.select('application.init_error')
       .subscribe(err => {
         console.log(err);

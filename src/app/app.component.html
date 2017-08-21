@@ -39,29 +39,10 @@
   <!-- Page Content -->
   <div id="page-wrapper">
     <div class="container-fluid">
-      <div class="preloader pagerReady" *ngIf="!(pageReady$|async) && appReady$|async">
+      <div class="preloader pagerReady" [hidden]="pageReady$|async">
         <div class="cssload-speeding-wheel"></div>
       </div>
-      <div class="row bg-title">
-        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-          <h4 class="page-title">Ecom-Dashboard</h4>
-        </div>
-        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-          <ol class="breadcrumb">
-            <li><a href="#">Dashboard</a></li>
-            <li class="active">Ecom-Dashboard</li>
-          </ol>
-        </div>
-      </div>
-      <!-- /.row -->
-      <div class="content">
-          <div class="col-xs-12">
-            <div class="white-box">
-              88 {{ title$|async }} 99
-              <!-- <router-outlet></router-outlet> -->
-            </div>
-          </div>
-      </div>
+      <router-outlet *ngIf="appReady$|async"></router-outlet>
     </div>
     <!-- /.container-fluid -->
     <footer class="footer text-center"> 2017 &copy; Renier Ricardo Figueredo (aprezcuba24@gmail.com) </footer>

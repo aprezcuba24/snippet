@@ -6,19 +6,23 @@ import { HttpModule } from '@angular/http';
 import * as Store from './store';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { AppRoutingModule } from "./app-routing.module";
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { LayoutComponent } from './layout/layout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent
+    DashboardComponent,
+    LayoutComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    AppRoutingModule,
     StoreModule.provideStore(Store.metaReducer),
     EffectsModule.run(Store.ApplicationStore),
   ],

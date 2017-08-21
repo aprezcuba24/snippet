@@ -1,0 +1,24 @@
+<div class="row bg-title">
+  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+    <h4 class="page-title">
+      <span title>
+        <ng-content select="[title]"></ng-content>
+      </span>
+    </h4>
+  </div>
+  <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+    <ol breadcrumb class="breadcrumb">
+      <ng-content select="[breadcrumb]"></ng-content>
+    </ol>
+  </div>
+</div>
+<!-- /.row -->
+<div class="content">
+  <div class="col-xs-12">
+    <div content class="white-box">
+      <div content>
+        <ng-content select="[content]"></ng-content>
+      </div>
+    </div>
+  </div>
+</div>
