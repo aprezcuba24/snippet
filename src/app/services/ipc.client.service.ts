@@ -24,10 +24,7 @@ export class IpcClientService {
           if (arg.error) {
             observer.error(arg.error);
           } else {
-            observer.next({
-              event: event,
-              data: arg.data,
-            })
+            observer.next(arg.data)
           }
         })
       });

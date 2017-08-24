@@ -10,13 +10,13 @@ import { AppRoutingModule } from "./app-routing.module";
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { LayoutComponent } from './layout/layout.component';
+import { LayoutComponent } from './components/layout/layout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    LayoutComponent
+    LayoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,9 +25,11 @@ import { LayoutComponent } from './layout/layout.component';
     AppRoutingModule,
     StoreModule.provideStore(Store.metaReducer),
     EffectsModule.run(Store.ApplicationStore),
+    EffectsModule.run(Store.TagStore),
   ],
   providers: [
     Store.ApplicationStore,
+    Store.TagStore,
     IpcClientService
   ],
   bootstrap: [AppComponent]

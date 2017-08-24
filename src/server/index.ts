@@ -1,3 +1,4 @@
+import { TagProcess } from './process/TagProcess';
 import { IpcService } from './IpcService';
 import { MainProcess } from './process/MainProcess';
 import { ReflectiveInjector } from '@angular/core';
@@ -7,9 +8,11 @@ import { Document, connect } from 'camo';
 
 let injector = ReflectiveInjector.resolveAndCreate([
     MainProcess,
+    TagProcess,
     IpcService,
 ]);
 injector.get(MainProcess);
+injector.get(TagProcess);
 
 // let database;
 // connect(server.db_connection).then(db => {

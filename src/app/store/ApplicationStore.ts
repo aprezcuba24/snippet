@@ -24,7 +24,7 @@ export class ApplicationStore {
     }
 
     @Effect() onInit$ = this.actions$.ofType(ApplicationStore.INIT)
-        .switchMap((action: Action) => this.ipc.send('init'))
+        .switchMap((action: Action) => this.ipc.send('init').filter(data => data == true))
         .map((data: IpcClientData) => {
             return {
                 type: ApplicationStore.READY

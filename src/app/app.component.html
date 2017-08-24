@@ -34,6 +34,11 @@
         </li>
       </ul>
     </div>
+    <ul>
+      <li *ngFor="let item of tags$|async">
+        {{ item.name }}
+      </li>
+    </ul>
   </div>
   <!-- Left navbar-header end -->
   <!-- Page Content -->
