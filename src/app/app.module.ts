@@ -1,3 +1,4 @@
+import { SnippetModule } from './snippet/snippet.module';
 import { IpcClientService } from './services/ipc.client.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -11,6 +12,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LayoutComponent } from './components/layout/layout.component';
+import { SnippetRoutingModule } from './snippet/snippet-routing.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { LayoutComponent } from './components/layout/layout.component';
     StoreModule.provideStore(Store.metaReducer),
     EffectsModule.run(Store.ApplicationStore),
     EffectsModule.run(Store.TagStore),
+    SnippetRoutingModule,
+    SnippetModule
   ],
   providers: [
     Store.ApplicationStore,
