@@ -1,4 +1,21 @@
-<p>
-  snippet works!
-   <app-snippet-form></app-snippet-form>
-</p>
+<layout>
+  <span title>
+    Snippet
+  </span>
+  <ol breadcrumb class="breadcrumb">
+    <li><a href="#">Snippet</a></li>
+    <li class="active">Form</li>
+  </ol>
+  <div content>
+    <div content class="white-box">
+      <app-snippet-detail *ngIf="action == 'detail' && model$|async" [model]="model$|async"></app-snippet-detail>
+      <app-snippet-form *ngIf="action == 'new'" [model]="newModel" (onSaved)="save($event)"></app-snippet-form>
+      <div *ngIf="action == 'edit' && model$|async">
+        <a [routerLink]="['/snippet/detail', {id: (model$|async)._id}]" class="btn btn-primary btn-rounded pull-right">
+          Detail
+        </a>
+        <app-snippet-form [model]="model$|async" (onSaved)="save($event)"></app-snippet-form>
+      </div>
+    </div>
+  </div>
+</layout>

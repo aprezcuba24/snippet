@@ -1,22 +1,26 @@
-import { ApplicationStore } from './../../store/ApplicationStore';
-import { Store } from '@ngrx/store';
-import { Component, OnInit } from '@angular/core';
+import { AppStoreService } from '../../services/store/app-store.service';
+import { SnippetStoreService } from '../../services/store/snippet-store.service';
+import { SnippetInterface } from '../../domain_types';
+import { Observable } from 'rxjs/Rx';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
+
+  moreUsed$: Observable<SnippetInterface[]>;
 
   constructor(
-    private store: Store<any>
-  ) { }
-
-  ngOnInit() {
-    this.store.dispatch({
-      type: ApplicationStore.PAGE_READY,
-      payload: true,
-    });
+    private snippetStore: SnippetStoreService,
+    private appStore: AppStoreService,
+  ) {
+    this.moreUsed$ = this.snippetStore.getMoreUsed$()
+      .do(() => {
+        this.appStore.setPageReady(true);
+      })
+      ;
   }
 }

@@ -1,3 +1,4 @@
+import { SnippetProcess } from './process/SnippetProcess';
 import { TagProcess } from './process/TagProcess';
 import { IpcService } from './IpcService';
 import { MainProcess } from './process/MainProcess';
@@ -9,10 +10,12 @@ import { Document, connect } from 'camo';
 let injector = ReflectiveInjector.resolveAndCreate([
     MainProcess,
     TagProcess,
+    SnippetProcess,
     IpcService,
 ]);
 injector.get(MainProcess);
 injector.get(TagProcess);
+injector.get(SnippetProcess);
 
 // let database;
 // connect(server.db_connection).then(db => {

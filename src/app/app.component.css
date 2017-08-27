@@ -4,3 +4,6 @@
     height: calc(100vh - 223px);
     width: calc(100vW - 265px);
 }
+.navbar-right {
+    padding-top: 8px;
+}

@@ -1,4 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { SnippetInterface } from './../../domain_types';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
+
+
+interface SnippetInterfaceAA {
+  title: String,
+  body: String,
+}
 
 @Component({
   selector: 'app-snippet-form',
@@ -6,11 +13,14 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./form.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FormComponent implements OnInit {
+export class FormComponent {
+
+  @Input() model: SnippetInterface;
+  @Output() onSaved = new EventEmitter<SnippetInterface>();
 
   constructor() { }
 
-  ngOnInit() {
+  onSubmit() {
+    this.onSaved.emit(this.model)
   }
-
 }

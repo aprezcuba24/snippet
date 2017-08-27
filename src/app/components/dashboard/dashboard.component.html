@@ -7,6 +7,21 @@
     <li class="active">Ecom-Dashboard</li>
   </ol>
   <div content>
-    Dashboard.... fff
+    <div class="col-md-6">
+      <div content class="white-box">
+        <h3 class="box-title">More Used</h3>
+        <div class="message-center">
+          <a [routerLink]="['/snippet/detail', {id: snippet._id}]" *ngFor="let snippet of moreUsed$|async">
+            <div class="mail-contnet">
+              <span class="label label-success pull-right">2</span>
+              <h5>
+                {{ snippet.title }}
+              </h5>
+              <div class="clearfix"></div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </layout>

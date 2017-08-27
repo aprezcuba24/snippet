@@ -1,8 +1,7 @@
-import { TagStore } from './store/TagStore';
-import { Observable, Subscription } from 'rxjs/Rx';
-import { ApplicationStore } from './store';
-import { ChangeDetectionStrategy, Component, OnInit, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { AppStoreService } from './services/store/app-store.service';
+import { TagStoreService } from './services/store/tag-store.service';
+import { Observable } from 'rxjs/Rx';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -10,39 +9,23 @@ import { Store } from '@ngrx/store';
   styleUrls: ['./app.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
 
   pageReady$: Observable<boolean>;
   appReady$: Observable<boolean>;
   tags$: Observable<any>;
-  private readySubscription: Subscription;
 
   constructor(
-    private store: Store<any>
+    private tagStore: TagStoreService,
+    private appStore: AppStoreService,
   ) {}
 
   ngOnInit() {
-    this.appReady$ = this.store.select('application.ready');
-    this.pageReady$ = this.store.select('application.page_ready');
-    this.store.select('application.init_error')
-      .subscribe(err => {
-        console.log(err);
-      })
-      ;
-    this.tags$ = this.store.select('tag.all');
-    this.store.dispatch({
-      type: ApplicationStore.INIT,
-    });
-    this.readySubscription = this.appReady$
-      .filter(ready => ready == true)
-      .subscribe(() => {
-        this.store.dispatch({
-          type: TagStore.LOAD_ALL,
-        });
-      });
-  }
-
-  ngOnDestroy() {
-    this.readySubscription.unsubscribe();
+    this.tags$ = this.tagStore.all$;
+    this.appReady$ = Observable.combineLatest(
+      this.appStore.backendReady$,
+      this.tags$
+    ).map(() => true);
+    this.pageReady$ = this.appStore.pageReady$;
   }
 }

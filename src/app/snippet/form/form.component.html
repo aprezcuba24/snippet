@@ -1,3 +1,20 @@
-<p>
-  form works!
-</p>
+<form #snippetForm="ngForm" (ngSubmit)="onSubmit()">
+  <div [class.has-error]="!(title.valid || title.pristine)" class="form-group">
+    <label class="control-label col-md-12">Title</label>
+    <div class="col-md-12">
+      <input [(ngModel)]="model.title" name="title" required class="form-control" placeholder="Title of snippet" type="text" #title="ngModel">
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div [class.has-error]="!(body.valid || body.pristine)" class="form-group">
+    <label class="control-label col-md-12">Text area</label>
+    <div class="col-md-12">
+      <textarea [(ngModel)]="model.body" #body="ngModel" required name="body" class="form-control" rows="5"></textarea>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="col-md-12">
+    <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
+  </div>
+  <div class="clearfix"></div>
+</form>

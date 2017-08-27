@@ -1,3 +1,16 @@
-<p>
-  detail works!
-</p>
+<div class="">
+  <h2 class="m-b-0 m-t-0">
+    {{ model.title }}
+    <a [routerLink]="['/snippet/edit', {id: model._id}]" class="btn btn-primary btn-rounded pull-right">
+      Edit
+    </a>
+  </h2>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <p>
+        {{ model.body }}
+      </p>
+    </div>
+  </div>
+</div>
