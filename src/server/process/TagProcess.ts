@@ -5,18 +5,44 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class TagProcess {
+    private tagAllEvent;
+
     constructor(
         private ipc: IpcService
     ) {
         this.ipc.process(
             'tag.all',
-            this.getAll$.bind(this)
+            (data: IpcInput) => {
+                this.tagAllEvent = data.event;
+                return this.getAll$()
+            }
         );
     }
 
-    getAll$(data: IpcInput) {
+    getAll$() {
         return Observable.fromPromise(Tag.find({}, {
             sort: 'name'
         }));
+    }
+
+    getOrCreated$(tags: string) {
+        return Observable.from(tags.split(','))
+            .flatMap(item => Observable.combineLatest(
+                Observable.of(item),
+                Observable.fromPromise(Tag.findOne({
+                    name: item
+                }))
+            ))
+            .flatMap(data => {
+                if (data[1] == null) {
+                    let tag = Tag.create({
+                        name: data[0]
+                    });
+                    return Observable.fromPromise(tag.save());
+                }
+                return Observable.of(data[1]);
+            })
+            .toArray()
+        ;
     }
 }

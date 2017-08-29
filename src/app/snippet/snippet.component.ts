@@ -1,6 +1,6 @@
-import { Observable } from 'rxjs/Rx';
+import {Observable, Subscription} from 'rxjs/Rx';
 import { SnippetInterface } from './../domain_types';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, OnDestroy} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {SnippetStoreService} from "../services/store/snippet-store.service";
 import {AppStoreService} from "../services/store/app-store.service";
@@ -11,14 +11,16 @@ import {AppStoreService} from "../services/store/app-store.service";
   styleUrls: ['./snippet.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SnippetComponent implements OnInit {
+export class SnippetComponent implements OnInit, OnDestroy {
 
   action: string;
-  model$: Observable<SnippetInterface>
-  newModel: SnippetInterface = {
+  newEntity: SnippetInterface = {
     title: '',
-    body: '',
+    body: ''
   };
+  entity$: Observable<SnippetInterface>;
+  ready$: Observable<boolean>;
+  private subscription: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,12 +33,18 @@ export class SnippetComponent implements OnInit {
   ngOnInit() {
     this.action = this.route.snapshot.data['action'];
     if (this.action == 'new') {
-      this.appStore.setPageReady(true);
+      return this.appStore.setPageReady(true);
     }
     let id = this.route.snapshot.paramMap.get('id');
-    this.model$ = this.snippetStore.get$(id)
-        .do(() => this.appStore.setPageReady(true))
-    ;
+    this.entity$ = this.snippetStore.get$(id);
+    this.ready$ = this.entity$.map(() => true);
+    this.subscription = this.entity$.subscribe(() => this.appStore.setPageReady(true));
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   save($event: SnippetInterface) {

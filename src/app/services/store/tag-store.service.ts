@@ -11,7 +11,7 @@ export class TagStoreService {
 
   constructor(
     private ipc: IpcClientService,
-    private appStore: AppStoreService,
+    private appStore: AppStoreService
   ) {
     this.appStore.backendReady$
       .subscribe(() => {

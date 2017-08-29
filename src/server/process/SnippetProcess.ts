@@ -2,11 +2,13 @@ import { Snippet } from './../domain/snippet';
 import { IpcInput, IpcService } from './../IpcService';
 import { Observable } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
+import {TagProcess} from "./TagProcess";
 
 @Injectable()
 export class SnippetProcess {
     constructor(
-        private ipc: IpcService
+        private ipc: IpcService,
+        private tagProcess: TagProcess
     ) {
         this.ipc.process('snippet.create', this.create$.bind(this));
         this.ipc.process('snippet.more_used', this.moreUsed$.bind(this));
@@ -16,7 +18,12 @@ export class SnippetProcess {
 
     create$(data: IpcInput) {
         let snippet = Snippet.create(data.arg);
-        return Observable.fromPromise(snippet.save());
+        return this.tagProcess.getOrCreated$(data.arg.tags)
+            .flatMap(tags => {
+                snippet.tags = tags;
+                return Observable.fromPromise(snippet.save());
+            })
+            ;
     }
 
     moreUsed$() {
@@ -30,14 +37,19 @@ export class SnippetProcess {
     }
 
     edit$(data: IpcInput) {
-        return Observable.fromPromise(Snippet.findOne({
+        let entity$ = Observable.fromPromise(Snippet.findOne({
             _id: data.arg._id
-        }))
+        }));
+        let tags$ = this.tagProcess.getOrCreated$(data.arg.tags);
+        return Observable.combineLatest(entity$, tags$, (entity: any, tags) => {
+            entity.tags = tags;
+            return entity;
+        })
             .flatMap((entity: any) => {
                 entity.body = data.arg.body;
                 entity.title = data.arg.title;
                 return Observable.fromPromise(entity.save());
             })
-            ;
+        ;
     }
 }

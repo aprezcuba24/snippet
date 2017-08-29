@@ -1,4 +1,5 @@
 import { Document } from 'camo';
+import {Tag} from "./tag";
 
 class SnippetClass extends Document {
     constructor() {
@@ -7,6 +8,7 @@ class SnippetClass extends Document {
         super.schema({
             title: String,
             body: String,
+            tags: [Tag],
         });
     }
     static collectionName() {

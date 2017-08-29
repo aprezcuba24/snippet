@@ -6,6 +6,13 @@
     </div>
     <div class="clearfix"></div>
   </div>
+  <div [class.has-error]="!(tags.valid || tags.pristine)" class="form-group">
+    <label class="control-label col-md-12">Tags</label>
+    <div class="col-md-12">
+      <input [(ngModel)]="model.tags" name="tags" required class="form-control" placeholder="Tags of snippet" type="text" #tags="ngModel">
+    </div>
+    <div class="clearfix"></div>
+  </div>
   <div [class.has-error]="!(body.valid || body.pristine)" class="form-group">
     <label class="control-label col-md-12">Text area</label>
     <div class="col-md-12">
