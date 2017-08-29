@@ -2,7 +2,7 @@
 <div class="preloader" *ngIf="!(appReady$|async)">
   <div class="cssload-speeding-wheel"></div>
 </div>
-<div id="wrapper">
+<div id="wrapper" *ngIf="appReady$|async">
   <!-- Navigation -->
   <nav class="navbar navbar-default navbar-static-top m-b-0">
     <div class="navbar-header">
@@ -52,7 +52,7 @@
       <div class="preloader pagerReady" [hidden]="pageReady$|async">
         <div class="cssload-speeding-wheel"></div>
       </div>
-      <router-outlet *ngIf="appReady$|async"></router-outlet>
+      <router-outlet></router-outlet>
     </div>
     <!-- /.container-fluid -->
     <footer class="footer text-center"> 2017 &copy; Renier Ricardo Figueredo (aprezcuba24@gmail.com) </footer>

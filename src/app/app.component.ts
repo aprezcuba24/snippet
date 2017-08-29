@@ -1,6 +1,6 @@
 import { AppStoreService } from './services/store/app-store.service';
 import { TagStoreService } from './services/store/tag-store.service';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subscription } from 'rxjs/Rx';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
@@ -21,11 +21,11 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.tags$ = this.tagStore.all$;
-    this.appReady$ = Observable.combineLatest(
-      this.appStore.backendReady$,
-      this.tags$
-    ).map(() => true);
+    this.tags$ = this.appStore
+      .backendReady$
+      .flatMap(() => this.tagStore.all$)
+      ;
+    this.appReady$ = this.tags$.map(() => true);
     this.pageReady$ = this.appStore.pageReady$;
   }
 }

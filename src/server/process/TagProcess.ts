@@ -19,6 +19,14 @@ export class TagProcess {
         );
     }
 
+    refreshAll() {
+        this.getAll$().subscribe(
+            tags => this.ipc.send('tag.all', this.tagAllEvent, {
+                data: tags
+            })
+        );
+    }
+
     getAll$() {
         return Observable.fromPromise(Tag.find({}, {
             sort: 'name'
@@ -43,6 +51,7 @@ export class TagProcess {
                 return Observable.of(data[1]);
             })
             .toArray()
+            .do(() => this.refreshAll())
         ;
     }
 }
