@@ -16,11 +16,13 @@ import { AppStoreService } from './services/store/app-store.service';
 import { SnippetStoreService } from './services/store/snippet-store.service';
 import { Select2Module } from 'ng2-select2';
 import {NgxPaginationModule} from "ngx-pagination";
+import {ListComponent} from "./components/list/list.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent
+    DashboardComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,

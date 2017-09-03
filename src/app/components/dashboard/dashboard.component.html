@@ -10,50 +10,53 @@
     <div class="col-md-6">
       <div content class="white-box">
         <h3 class="box-title">More Used</h3>
-        <div class="message-center">
-          <a
-            [routerLink]="['/snippet/detail',
-            {id: snippet._id}]"
-            *ngFor="let snippet of moreUsed$ | async | paginate: { id: 'moreUsedPaginate', itemsPerPage: moreUsedData.itemsPerPage, currentPage: moreUsedData.page, totalItems: moreUsedData.total }"
-          >
-            <div class="mail-contnet">
-              <span class="label label-success pull-right">{{ snippet.cantViews }}</span>
-              <h5>
-                {{ snippet.title }}
-              </h5>
-              <div class="clearfix"></div>
-            </div>
-          </a>
-        </div>
-        <div class="pagination_content pull-right">
-          <div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
-          <pagination-controls (pageChange)="getMoreUsedPage($event)" id="moreUsedPaginate"></pagination-controls>
-        </div>
+        <app-list [method]="moreUsedMethod"></app-list>
+
+        <!--<div class="message-center">-->
+          <!--<a-->
+            <!--[routerLink]="['/snippet/detail',-->
+            <!--{id: snippet._id}]"-->
+            <!--*ngFor="let snippet of moreUsed$ | async | paginate: { id: 'moreUsedPaginate', itemsPerPage: moreUsedData.itemsPerPage, currentPage: moreUsedData.page, totalItems: moreUsedData.total }"-->
+          <!--&gt;-->
+            <!--<div class="mail-contnet">-->
+              <!--<span class="label label-success pull-right">{{ snippet.cantViews }}</span>-->
+              <!--<h5>-->
+                <!--{{ snippet.title }}-->
+              <!--</h5>-->
+              <!--<div class="clearfix"></div>-->
+            <!--</div>-->
+          <!--</a>-->
+        <!--</div>-->
+        <!--<div class="pagination_content pull-right">-->
+          <!--<div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>-->
+          <!--<pagination-controls (pageChange)="getMoreUsedPage($event)" id="moreUsedPaginate"></pagination-controls>-->
+        <!--</div>-->
         <div class="clearfix"></div>
       </div>
     </div>
     <div class="col-md-6">
       <div content class="white-box">
         <h3 class="box-title">Newest</h3>
-        <div class="message-center">
-          <a
-            [routerLink]="['/snippet/detail',
-            {id: snippet._id}]"
-            *ngFor="let snippet of newest$ | async | paginate: { id: 'newestPaginate', itemsPerPage: newestData.itemsPerPage, currentPage: newestData.page, totalItems: newestData.total }"
-          >
-            <div class="mail-contnet">
-              <span class="label label-success pull-right">{{ snippet.cantViews }}</span>
-              <h5>
-                {{ snippet.title }}
-              </h5>
-              <div class="clearfix"></div>
-            </div>
-          </a>
-        </div>
-        <div class="pagination_content pull-right">
-          <div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
-          <pagination-controls (pageChange)="getNewestPage($event)" id="newestPaginate"></pagination-controls>
-        </div>
+        <app-list [method]="moreNewestthod"></app-list>
+        <!--<div class="message-center">-->
+          <!--<a-->
+            <!--[routerLink]="['/snippet/detail',-->
+            <!--{id: snippet._id}]"-->
+            <!--*ngFor="let snippet of newest$ | async | paginate: { id: 'newestPaginate', itemsPerPage: newestData.itemsPerPage, currentPage: newestData.page, totalItems: newestData.total }"-->
+          <!--&gt;-->
+            <!--<div class="mail-contnet">-->
+              <!--<span class="label label-success pull-right">{{ snippet.cantViews }}</span>-->
+              <!--<h5>-->
+                <!--{{ snippet.title }}-->
+              <!--</h5>-->
+              <!--<div class="clearfix"></div>-->
+            <!--</div>-->
+          <!--</a>-->
+        <!--</div>-->
+        <!--<div class="pagination_content pull-right">-->
+          <!--<div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>-->
+          <!--<pagination-controls (pageChange)="getNewestPage($event)" id="newestPaginate"></pagination-controls>-->
+        <!--</div>-->
         <div class="clearfix"></div>
       </div>
     </div>
