@@ -33,8 +33,8 @@ export class TagProcess {
         }));
     }
 
-    getOrCreated$(tags: string) {
-        return Observable.from(tags.split(','))
+    getOrCreated$(tags: string[]) {
+        return Observable.from(tags)
             .flatMap(item => Observable.combineLatest(
                 Observable.of(item),
                 Observable.fromPromise(Tag.findOne({

@@ -10,13 +10,20 @@ export class SnippetStoreService {
     private ipc: IpcClientService
   ) { }
 
-  getMoreUsed$() {
-    return this.ipc.send('snippet.more_used');
+  getMoreUsed$(data) {
+    return this.ipc.send('snippet.more_used', data);
+  }
+  
+  newest$(data) {
+    return this.ipc.send('snippet.newest', data);
   }
 
-  get$(id) {
+  get$(id, increment_view = false) {
     let entity$ = new BehaviorSubject(null);
-    this.ipc.send('snippet.get', id).subscribe(entity => entity$.next(entity));
+    this.ipc.send('snippet.get', {
+      id: id,
+      increment_view: increment_view,
+    }).subscribe(entity => entity$.next(entity));
     return entity$.filter(entity => entity != null);
   }
 

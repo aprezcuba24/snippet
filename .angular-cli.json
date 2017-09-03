@@ -9,7 +9,12 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico"
+        "favicon.ico",
+        {
+          "glob": "**/*",
+          "input": "../node_modules/select2/dist/css/",
+          "output": "./assets/select2"
+        }
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -22,7 +27,8 @@
         "styles.css"
       ],
       "scripts": [
-        "assets/native.js"
+        "assets/native.js",
+        "../node_modules/select2/dist/js/select2.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

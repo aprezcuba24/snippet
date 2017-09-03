@@ -1,9 +1,10 @@
 import {Observable, Subscription} from 'rxjs/Rx';
-import { SnippetInterface } from './../domain_types';
+import {SnippetInterface, TagInterface} from './../domain_types';
 import {Component, OnInit, ChangeDetectionStrategy, OnDestroy} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {SnippetStoreService} from "../services/store/snippet-store.service";
 import {AppStoreService} from "../services/store/app-store.service";
+import {TagStoreService} from "../services/store/tag-store.service";
 
 @Component({
   selector: 'app-snippet',
@@ -16,29 +17,37 @@ export class SnippetComponent implements OnInit, OnDestroy {
   action: string;
   newEntity: SnippetInterface = {
     title: '',
-    body: ''
+    body: '',
+    tags: '',
   };
   entity$: Observable<SnippetInterface>;
   ready$: Observable<boolean>;
+  tags$: Observable<TagInterface[]>;
   private subscription: Subscription;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private snippetStore: SnippetStoreService,
-    private appStore: AppStoreService
+    private appStore: AppStoreService,
+    private tagStore: TagStoreService
   ) {
   }
 
   ngOnInit() {
     this.action = this.route.snapshot.data['action'];
+    this.tags$ = this.tagStore.all$;
     if (this.action == 'new') {
-      return this.appStore.setPageReady(true);
+      this.ready$ = this.tags$.map(() => true);
+    } else {
+      let id = this.route.snapshot.paramMap.get('id');
+      this.entity$ = this.snippetStore.get$(id, this.action == 'detail');
+      this.ready$ = this.entity$.concat(this.tags$).map(() => true);
     }
-    let id = this.route.snapshot.paramMap.get('id');
-    this.entity$ = this.snippetStore.get$(id);
-    this.ready$ = this.entity$.map(() => true);
-    this.subscription = this.entity$.subscribe(() => this.appStore.setPageReady(true));
+    this.subscription = this.ready$
+        .filter(ready => ready == true)
+        .subscribe(() => this.appStore.setPageReady(true))
+    ;
   }
 
   ngOnDestroy() {

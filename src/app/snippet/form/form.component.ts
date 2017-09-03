@@ -1,11 +1,6 @@
-import { SnippetInterface } from './../../domain_types';
+import {SnippetInterface, TagInterface} from './../../domain_types';
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
-
-
-interface SnippetInterfaceAA {
-  title: String,
-  body: String,
-}
+declare let $: any;
 
 @Component({
   selector: 'app-snippet-form',
@@ -16,11 +11,13 @@ interface SnippetInterfaceAA {
 export class FormComponent {
 
   @Input() model: SnippetInterface;
+  @Input() tags: TagInterface[];
   @Output() onSaved = new EventEmitter<SnippetInterface>();
 
   constructor() { }
 
   onSubmit() {
+    console.log(this.model);
     this.onSaved.emit(this.model)
   }
 }

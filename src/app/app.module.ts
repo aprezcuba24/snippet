@@ -14,6 +14,8 @@ import { PageLoadService } from './services/page-load.service';
 import { TagStoreService } from './services/store/tag-store.service';
 import { AppStoreService } from './services/store/app-store.service';
 import { SnippetStoreService } from './services/store/snippet-store.service';
+import { Select2Module } from 'ng2-select2';
+import {NgxPaginationModule} from "ngx-pagination";
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { SnippetStoreService } from './services/store/snippet-store.service';
     SnippetModule,
     SharedModule,
     SnippetRoutingModule,
+    Select2Module,
+    NgxPaginationModule
   ],
   providers: [
     IpcClientService,

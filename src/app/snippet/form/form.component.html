@@ -6,10 +6,10 @@
     </div>
     <div class="clearfix"></div>
   </div>
-  <div [class.has-error]="!(tags.valid || tags.pristine)" class="form-group">
+  <div [class.has-error]="!(tagsWidget.valid || tagsWidget.pristine)" class="form-group">
     <label class="control-label col-md-12">Tags</label>
     <div class="col-md-12">
-      <input [(ngModel)]="model.tags" name="tags" required class="form-control" placeholder="Tags of snippet" type="text" #tags="ngModel">
+      <select2 name="tags" [options]="{tags: true}" [value_property]="'name'" [text_property]="'name'" [items]="tags" required multiple="true" #tagsWidget="ngModel" [(ngModel)]="model.tags"></select2>
     </div>
     <div class="clearfix"></div>
   </div>

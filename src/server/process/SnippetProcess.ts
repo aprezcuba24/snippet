@@ -3,6 +3,7 @@ import { IpcInput, IpcService } from './../IpcService';
 import { Observable } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 import {TagProcess} from "./TagProcess";
+import {SnippetInterface} from "../../app/domain_types";
 
 @Injectable()
 export class SnippetProcess {
@@ -12,6 +13,7 @@ export class SnippetProcess {
     ) {
         this.ipc.process('snippet.create', this.create$.bind(this));
         this.ipc.process('snippet.more_used', this.moreUsed$.bind(this));
+        this.ipc.process('snippet.newest', this.newest$.bind(this));
         this.ipc.process('snippet.get', this.get$.bind(this));
         this.ipc.process('snippet.edit', this.edit$.bind(this));
     }
@@ -26,14 +28,47 @@ export class SnippetProcess {
             ;
     }
 
-    moreUsed$() {
-        return Observable.fromPromise(Snippet.find());
+    paginate(data: IpcInput, query = {}, options = {}) {
+        options = Object.assign(options, {
+            skip: (data.arg.page - 1) * data.arg.itemsPerPage,
+            limit: data.arg.itemsPerPage,
+        });
+        let count$ = Observable.fromPromise(Snippet.count(query, options));
+        let items$ = Observable.fromPromise(Snippet.find(query, options));
+        return Observable.combineLatest(count$, items$)
+            .map(result => {
+                return {
+                    total: result[0],
+                    items: result[1],
+                }
+            })
+            ;
+    }
+
+    newest$(data: IpcInput) {
+        return this.paginate(data, {}, {
+            sort: '-createdAt',
+        });
+    }
+
+    moreUsed$(data: IpcInput) {
+        return this.paginate(data, {}, {
+            sort: '-cantViews',
+        });
     }
 
     get$(data: IpcInput) {
         return Observable.fromPromise(Snippet.findOne({
-            _id: data.arg
-        }));
+            _id: data.arg.id
+        }))
+            .flatMap((item: SnippetInterface) => {
+                if (!data.arg.increment_view) {
+                    return Observable.of(item);
+                }
+                item.cantViews++;
+                return Observable.fromPromise(item.save());
+            })
+            ;
     }
 
     edit$(data: IpcInput) {

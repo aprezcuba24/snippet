@@ -1,4 +1,3 @@
-import { AppStoreService } from './app-store.service';
 import { TagInterface } from '../../domain_types';
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import { IpcClientService } from '../ipc.client.service';
@@ -8,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class TagStoreService {
 
   constructor(
-    private ipc: IpcClientService,
+    private ipc: IpcClientService
   ) {
   }
 
