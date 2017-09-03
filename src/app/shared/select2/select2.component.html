@@ -1,3 +1,14 @@
-<select #selector multiple="multiple" style="width: 100%">
-    <option *ngFor="let item of items" value="{{ item[value_property] }}">{{ item[text_property] }}</option>
+<select #selector multiple style="width: 100%">
+    <option
+        *ngFor="let item of items"
+        value="{{ item[value_property] }}"
+        [selected]="isSelected$(item)|async"
+    >
+        {{ item[text_property] }}
+    </option>
 </select>
+
+<!--<select #selector multiple>-->
+    <!--<option value="aaa">aa</option>-->
+    <!--<option value="bb">bb</option>-->
+<!--</select>-->
