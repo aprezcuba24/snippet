@@ -16,5 +16,9 @@
     height: -webkit-calc(100vh - 110px);
     height:    -moz-calc(100vh - 110px);
     height:         calc(100vh - 110px);
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.select2-selection {
+    height: 38px;
 }

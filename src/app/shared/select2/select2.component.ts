@@ -1,4 +1,7 @@
-import {Component, forwardRef, Input, OnInit, ElementRef, ViewChild, AfterContentInit} from '@angular/core';
+import {
+    Component, forwardRef, Input, OnInit, ElementRef, ViewChild, AfterContentInit, Output,
+    EventEmitter
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import {Observable, BehaviorSubject} from "rxjs/Rx";
 import {TagInterface} from "../../domain_types";
@@ -28,6 +31,7 @@ export class Select2Component implements ControlValueAccessor, AfterContentInit 
     @Input() required: boolean = false;
     @Input() value_property: string = '_id';
     @Input() text_property: string = 'name';
+    @Output() onChange = new EventEmitter();
     private innerValue$ = new BehaviorSubject([]);
     private onTouchedCallback: () => void = noop;
     private onChangeCallback: (_: any) => void = noop;
@@ -37,8 +41,32 @@ export class Select2Component implements ControlValueAccessor, AfterContentInit 
     };
 
     set value(v: any) {
-        this.innerValue$.next(v);
-        this.onChangeCallback(v);
+        v = v || [];
+        Observable.from(v)
+            .flatMap(value => {
+                let item$ = Observable.of(value);
+                let search$ = Observable.from(this.items)
+                    .filter(items => items != null)
+                    .find((item: TagInterface) => item[this.value_property] == value)
+                ;
+                return Observable.combineLatest(item$, search$);
+            })
+            .map(data => {
+                if (data[1]) {
+                    return data[1];
+                }
+                return {
+                    _id: null,
+                    name: data[0],
+                }
+            })
+            .toArray()
+            .subscribe(items => {
+                this.innerValue$.next(items);
+                this.onChangeCallback(items);
+                this.onChange.emit(items);
+            })
+        ;
     }
 
     ngAfterContentInit() {

@@ -38,7 +38,7 @@
     "@types/node": "^6.0.86",
     "camo": "^0.12.3",
     "core-js": "^2.4.1",
-    "mongodb": "^2.2.31",
+    "mongodb": "^2.0.42",
     "ng2-select2": "^1.0.0-beta.10",
     "ngx-pagination": "^3.0.1",
     "rxjs": "^5.1.0",
@@ -68,5 +68,8 @@
     "ts-node": "~2.0.0",
     "tslint": "~4.5.0",
     "typescript": "~2.2.0"
+  },
+  "optionalDependencies": {
+    "camo": "^0.12.3"
   }
 }

@@ -35,7 +35,7 @@ export class IpcClientService {
     let observable = Observable.create((observer: Observer<void>) => {
       this.ipc.send(message, JSON.stringify(arg));
       observer.complete();
-    })
+    });
     return Observable.concat(observable, this.on(message));
   }
 

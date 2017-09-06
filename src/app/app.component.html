@@ -18,36 +18,8 @@
       </div>
     </div>
   </nav>
-  <!-- Left navbar-header -->
-  <div class="navbar-default sidebar" role="navigation">
-    <div class="sidebar-nav navbar-collapse slimscrollsidebar">
-      <ul class="nav" id="side-menu">
-        <li>
-          <a href="#" class="waves-effect active">
-            <i class="linea-icon linea-basic fa-fw" data-icon="v"></i>
-            <span class="hide-menu">
-              E-commerce
-              <span class="fa arrow"></span>
-              <span class="label label-rouded label-custom pull-right">7</span>
-            </span>
-          </a>
-          <ul class="nav nav-second-level">
-            <li>
-              <a routerLink="snippet" routerLinkActive="active">snippet</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <ul>
-      <li *ngFor="let item of tags$|async">
-        {{ item.name }}
-      </li>
-    </ul>
-  </div>
-  <!-- Left navbar-header end -->
   <!-- Page Content -->
-  <div id="page-wrapper">
+  <div id="apage-wrapper" style="background-color: #edf1f5">
     <div class="container-fluid content-wrapper">
       <div class="preloader pagerReady" [hidden]="pageReady$|async">
         <div class="cssload-speeding-wheel"></div>

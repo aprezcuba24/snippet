@@ -3,7 +3,8 @@ import { IpcInput, IpcService } from './../IpcService';
 import { Observable } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 import {TagProcess} from "./TagProcess";
-import {SnippetInterface} from "../../app/domain_types";
+import {SnippetInterface, TagInterface} from "../../app/domain_types";
+import * as MongoDb from 'mongodb';
 
 @Injectable()
 export class SnippetProcess {
@@ -16,6 +17,7 @@ export class SnippetProcess {
         this.ipc.process('snippet.newest', this.newest$.bind(this));
         this.ipc.process('snippet.get', this.get$.bind(this));
         this.ipc.process('snippet.edit', this.edit$.bind(this));
+        this.ipc.process('snippet.search', this.search$.bind(this));
     }
 
     create$(data: IpcInput) {
@@ -55,6 +57,19 @@ export class SnippetProcess {
         return this.paginate(data, {}, {
             sort: '-cantViews',
         });
+    }
+
+    search$(data: IpcInput) {
+        return Observable.from(data.arg.tags)
+            .map((item: TagInterface) => item._id)
+            .map(id => new MongoDb.ObjectId(id))
+            .toArray()
+            .flatMap(ids => this.paginate(data, {
+                tags: {$in: ids}
+            }, {
+                sort: '-cantViews',
+            }))
+        ;
     }
 
     get$(data: IpcInput) {

@@ -32,7 +32,6 @@ import {ListComponent} from "./components/list/list.component";
     SnippetModule,
     SharedModule,
     SnippetRoutingModule,
-    Select2Module,
     NgxPaginationModule
   ],
   providers: [

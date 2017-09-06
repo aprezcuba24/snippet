@@ -2,6 +2,7 @@ import { IpcInput, IpcService } from './../IpcService';
 import { Observable } from 'rxjs/Rx';
 import { Tag } from './../domain/tag';
 import { Injectable } from '@angular/core';
+import {TagInterface} from "../../app/domain_types";
 
 @Injectable()
 export class TagProcess {
@@ -33,19 +34,17 @@ export class TagProcess {
         }));
     }
 
-    getOrCreated$(tags: string[]) {
+    getOrCreated$(tags: TagInterface[]) {
         return Observable.from(tags)
             .flatMap(item => Observable.combineLatest(
                 Observable.of(item),
                 Observable.fromPromise(Tag.findOne({
-                    name: item
+                    name: item.name
                 }))
             ))
             .flatMap(data => {
                 if (data[1] == null) {
-                    let tag = Tag.create({
-                        name: data[0]
-                    });
+                    let tag = Tag.create(data[0]);
                     return Observable.fromPromise(tag.save());
                 }
                 return Observable.of(data[1]);
