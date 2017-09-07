@@ -1,7 +1,6 @@
 <div class="message-center">
   <a
-    [routerLink]="['/snippet/detail',
-    {id: snippet._id}]"
+    [routerLink]="['/snippet/detail', {id: snippet._id}]"
     *ngFor="let snippet of list$ | async | paginate: { id: paginateId, itemsPerPage: itemsPerPage, currentPage: page, totalItems: total }"
   >
     <div class="mail-contnet">

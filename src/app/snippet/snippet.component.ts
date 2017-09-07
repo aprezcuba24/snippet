@@ -51,9 +51,7 @@ export class SnippetComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription.unsubscribe();
   }
 
   save($event: SnippetInterface) {

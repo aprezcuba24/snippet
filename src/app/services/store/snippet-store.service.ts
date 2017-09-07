@@ -1,12 +1,15 @@
 import { IpcClientService } from './../ipc.client.service';
 import { Injectable } from '@angular/core';
 import {SnippetInterface, TagInterface} from "../../domain_types";
-import {BehaviorSubject} from "rxjs/Rx";
+import {BehaviorSubject, Observable} from "rxjs/Rx";
 
 @Injectable()
 export class SnippetStoreService {
 
     private _tagsFilters$ = new BehaviorSubject<TagInterface[]>([]);
+    private _lastViews$ = new BehaviorSubject<SnippetInterface[]>([]);
+    private _lastViews: SnippetInterface[] = [];
+    static readonly CANT_LAST_VIEW: number = 10;
 
     constructor(
         private ipc: IpcClientService
@@ -31,12 +34,34 @@ export class SnippetStoreService {
         ;
     }
 
+    get lastViews$() {
+        return this._lastViews$;
+    }
+
+    private addLastView(snippet: SnippetInterface) {
+        Observable.concat(
+            Observable.of(snippet),
+            Observable.from(this._lastViews)
+                .filter((item: SnippetInterface) => item._id != snippet._id)
+                .take(SnippetStoreService.CANT_LAST_VIEW - 1)
+        )
+            .toArray()
+            .subscribe(items => {
+                this._lastViews = items;
+                this._lastViews$.next(this._lastViews);
+            })
+        ;
+    }
+
     get$(id, increment_view = false) {
         let entity$ = new BehaviorSubject(null);
         this.ipc.send('snippet.get', {
             id: id,
             increment_view: increment_view,
-        }).subscribe(entity => entity$.next(entity));
+        }).take(1).subscribe((entity: SnippetInterface) => {
+            entity$.next(entity);
+            this.addLastView(entity);
+        });
         return entity$.filter(entity => entity != null);
     }
 

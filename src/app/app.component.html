@@ -8,14 +8,41 @@
     <div class="navbar-header">
       <div class="top-left-part">
         <a class="logo" routerLink="dashboard">
+          <i class="icon-home"></i>
           Snippets
         </a>
       </div>
-      <div class="nav navbar-top-links navbar-right pull-right">
-        <a routerLink="/snippet/new" class="btn btn-block btn-warning btn-rounded">
-          Create Snippet
-        </a>
-      </div>
+      <ul class="nav navbar-top-links navbar-right pull-right">
+        <li *ngIf="hasLastView$|async" class="dropdown">
+          <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#" aria-expanded="true">
+            <i class="icon-layers"></i>
+            <div class="">
+              <span class="heartbit"></span>
+              <span class="point"></span>
+            </div>
+          </a>
+          <ul class="dropdown-menu mailbox animated bounceInDown">
+            <li>
+              <div class="message-center">
+                <a
+                  [routerLink]="['/snippet/detail', {id: snippet._id}]"
+                  *ngFor="let snippet of lastViews$|async"
+                >
+                  <div class="mail-contnet">
+                    <h5>{{ snippet.title }}</h5>
+                  </div>
+                </a>
+              </div>
+            </li>
+          </ul>
+          <!-- /.dropdown-messages -->
+        </li>
+        <li>
+          <a routerLink="/snippet/new" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">
+            <i class="icon-plus"></i>
+          </a>
+        </li>
+      </ul>
     </div>
   </nav>
   <!-- Page Content -->
