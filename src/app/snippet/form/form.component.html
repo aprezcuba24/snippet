@@ -9,14 +9,37 @@
   <div [class.has-error]="!(tagsWidget.valid || tagsWidget.pristine)" class="form-group">
     <label class="control-label col-md-12">Tags</label>
     <div class="col-md-12">
-      <select2 name="tags" [options]="{tags: true}" [value_property]="'name'" [text_property]="'name'" [items]="tags" required #tagsWidget="ngModel" [(ngModel)]="model.tags"></select2>
+      <select2 name="tags" [options]="{tags: true, placeholder: 'tags'}" [value_property]="'name'" [text_property]="'name'" [items]="tags" required #tagsWidget="ngModel" [(ngModel)]="model.tags"></select2>
     </div>
     <div class="clearfix"></div>
   </div>
   <div [class.has-error]="!(body.valid || body.pristine)" class="form-group">
-    <label class="control-label col-md-12">Text area</label>
+    <label class="control-label col-md-12">Body</label>
     <div class="col-md-12">
-      <textarea [(ngModel)]="model.body" #body="ngModel" required name="body" class="form-control" rows="5"></textarea>
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+          <a href="#edit" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="false">
+            <span>
+              <i class="icon-pencil"></i>
+            </span>
+          </a>
+        </li>
+        <li role="presentation" class="">
+          <a href="#show" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">
+            <span>
+              <i class="icon-eye"></i>
+            </span>
+          </a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="edit">
+          <textarea [(ngModel)]="model.body" #body="ngModel" required name="body" class="form-control" rows="15"></textarea>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="show">
+          <markdown [data]="model.body"></markdown>
+        </div>
+      </div>
     </div>
     <div class="clearfix"></div>
   </div>
