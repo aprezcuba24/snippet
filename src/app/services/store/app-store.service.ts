@@ -13,7 +13,6 @@ export class AppStoreService {
   ) {
     this.ipc.send('init')
       .filter(data => data == true)
-      .take(1)
       .subscribe(() => {
         this._backendReady$.next(true);
       })

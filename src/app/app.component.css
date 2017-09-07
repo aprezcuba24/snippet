@@ -1,6 +1,9 @@
 .preloader.pagerReady {
     z-index: 8000;
-    top: 138px;
-    height: calc(100vh - 223px);
+    top: 84px;
+    height: calc(100vh - 123px);
     width: calc(100vW - 50px);
+}
+footer {
+    left: 0;
 }

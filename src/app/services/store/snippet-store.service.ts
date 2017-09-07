@@ -30,7 +30,7 @@ export class SnippetStoreService {
                     tags: tags,
                 })
             })
-            .flatMap(data => this.ipc.send('snippet.search', data).take(1))
+            .flatMap(data => this.ipc.send('snippet.search', data))
         ;
     }
 
@@ -58,7 +58,7 @@ export class SnippetStoreService {
         this.ipc.send('snippet.get', {
             id: id,
             increment_view: increment_view,
-        }).take(1).subscribe((entity: SnippetInterface) => {
+        }).subscribe((entity: SnippetInterface) => {
             entity$.next(entity);
             this.addLastView(entity);
         });
