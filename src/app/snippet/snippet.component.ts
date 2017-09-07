@@ -1,7 +1,7 @@
 import {Observable, Subscription} from 'rxjs/Rx';
 import {SnippetInterface, TagInterface} from './../domain_types';
 import {Component, OnInit, ChangeDetectionStrategy, OnDestroy} from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {ActivatedRoute, Router, ParamMap} from '@angular/router';
 import {SnippetStoreService} from "../services/store/snippet-store.service";
 import {AppStoreService} from "../services/store/app-store.service";
 import {TagStoreService} from "../services/store/tag-store.service";
@@ -35,18 +35,34 @@ export class SnippetComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.action = this.route.snapshot.data['action'];
     this.tags$ = this.tagStore.all$;
-    if (this.action == 'new') {
-      this.ready$ = this.tags$.map(() => true);
-    } else {
-      let id = this.route.snapshot.paramMap.get('id');
-      this.entity$ = this.snippetStore.get$(id, this.action == 'detail');
-      this.ready$ = this.entity$.concat(this.tags$).map(() => true);
-    }
+    let params$ = this.route.paramMap
+      .map((params: ParamMap) => {
+        return {
+          action: this.route.snapshot.data['action'],
+          id: params.get('id'),
+        }
+      })
+      .do((data: any) => this.action = data.action)
+    ;
+    let new$ = params$
+      .filter((data: any) => data.action == 'new')
+      .switchMap(() => this.tags$)
+      .map(() => true)
+    ;
+    this.entity$ = params$
+      .filter((data: any) => data.action != 'new')//edit, detail
+      .switchMap((data: any) => this.snippetStore.get$(data.id, data.action == 'detail'))
+      .publishReplay(1)
+      .refCount()
+    ;
+    this.ready$ = Observable.race(new$, Observable.combineLatest(this.entity$, this.tags$))
+      .map(() => true)
+    ;
     this.subscription = this.ready$
-        .filter(ready => ready == true)
-        .subscribe(() => this.appStore.setPageReady(true))
+      .subscribe(() => {
+          this.appStore.setPageReady(true);
+      })
     ;
   }
 
