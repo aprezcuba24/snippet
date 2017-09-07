@@ -4,6 +4,13 @@
     <a [routerLink]="['/snippet/edit', {id: model._id}]" class="btn btn-primary btn-rounded pull-right">
       Edit
     </a>
+    <div class="clearfix"></div>
+    <span
+        class="label label-success font-weight-100"
+        *ngFor="let tag of model.tags"
+    >
+      {{ tag.name }}
+    </span>
   </h2>
   <hr>
   <div class="row">
