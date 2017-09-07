@@ -1,6 +1,5 @@
 import {SnippetInterface, TagInterface} from './../../domain_types';
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
-declare let $: any;
 
 @Component({
   selector: 'app-snippet-form',
@@ -17,7 +16,6 @@ export class FormComponent {
   constructor() { }
 
   onSubmit() {
-    console.log(this.model);
     this.onSaved.emit(this.model)
   }
 }
