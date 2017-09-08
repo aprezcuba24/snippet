@@ -11,11 +11,13 @@
     >
       {{ tag.name }}
     </span>
+    <span class="label label-success pull-right">{{ model.cantViews }}</span>
+    <div class="clearfix"></div>
   </h2>
   <hr>
   <div class="row">
     <div class="col-md-12">
-      <markdown [data]="model.body"></markdown>
+      <div #markdown></div>
     </div>
   </div>
 </div>

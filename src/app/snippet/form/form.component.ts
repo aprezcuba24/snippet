@@ -1,5 +1,11 @@
 import {SnippetInterface, TagInterface} from './../../domain_types';
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component, EventEmitter, Input, Output, ChangeDetectionStrategy, ViewChild, ElementRef,
+  OnChanges, SimpleChanges, DoCheck, AfterContentChecked, AfterViewChecked
+} from '@angular/core';
+import * as marked from 'marked';
+import '../prism.languages';
+declare let Prism: any;
 
 @Component({
   selector: 'app-snippet-form',
@@ -7,15 +13,21 @@ import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from 
   styleUrls: ['./form.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FormComponent {
+export class FormComponent implements AfterViewChecked {
 
   @Input() model: SnippetInterface;
   @Input() tags: TagInterface[];
   @Output() onSaved = new EventEmitter<SnippetInterface>();
+  @ViewChild("markdown") markdown: ElementRef;
 
   constructor() { }
 
   onSubmit() {
     this.onSaved.emit(this.model)
+  }
+
+  ngAfterViewChecked() {
+    this.markdown.nativeElement.innerHTML = marked(this.model.body);
+    Prism.highlightAll(false);
   }
 }

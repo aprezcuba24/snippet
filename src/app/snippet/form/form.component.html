@@ -36,7 +36,7 @@
           <textarea [(ngModel)]="model.body" #body="ngModel" required name="body" class="form-control" rows="15"></textarea>
         </div>
         <div role="tabpanel" class="tab-pane" id="show">
-          <markdown [data]="model.body"></markdown>
+          <div #markdown></div>
         </div>
       </div>
     </div>

@@ -7,7 +7,6 @@ import { CommonModule } from '@angular/common';
 import { FormComponent } from './form/form.component';
 import { DetailComponent } from './detail/detail.component';
 import { SnippetComponent } from './snippet.component';
-import { MarkdownModule } from 'angular2-markdown';
 
 @NgModule({
   imports: [
@@ -15,7 +14,6 @@ import { MarkdownModule } from 'angular2-markdown';
     FormsModule,
     SharedModule,
     SnippetRoutingModule,
-    MarkdownModule.forRoot(),
   ],
   declarations: [FormComponent, DetailComponent, SnippetComponent]
 })
