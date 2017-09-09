@@ -9,14 +9,15 @@ const url = require('url')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+var mainWindow
 
 function createWindow() {
   require('./dist/server');
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 800, height: 600
-  })
+  });
+  mainWindow.setMenu(null);
   mainWindow.maximize();
 
   // and load the index.html of the app.

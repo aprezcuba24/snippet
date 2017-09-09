@@ -9,7 +9,17 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico"
+        "favicon.ico",
+        {
+          "glob": "**/*",
+          "input": "../node_modules/select2/dist/css/",
+          "output": "./assets/select2"
+        },
+        {
+          "glob": "**/*",
+          "input": "../node_modules/prismjs/themes/",
+          "output": "./assets/prismjs"
+        }
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -21,7 +31,10 @@
       "styles": [
         "styles.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "assets/native.js",
+        "../node_modules/select2/dist/js/select2.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

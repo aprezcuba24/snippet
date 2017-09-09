@@ -1,0 +1,23 @@
+<div class="">
+  <h2 class="m-b-0 m-t-0">
+    {{ model.title }}
+    <a [routerLink]="['/snippet/edit', {id: model._id}]" class="btn btn-primary btn-rounded pull-right">
+      Edit
+    </a>
+    <div class="clearfix"></div>
+    <span
+        class="label label-success font-weight-100"
+        *ngFor="let tag of model.tags"
+    >
+      {{ tag.name }}
+    </span>
+    <span class="label label-success pull-right">{{ model.cantViews }}</span>
+    <div class="clearfix"></div>
+  </h2>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <div #markdown></div>
+    </div>
+  </div>
+</div>

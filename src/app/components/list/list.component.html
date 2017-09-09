@@ -1,0 +1,18 @@
+<div class="message-center">
+  <a
+    [routerLink]="['/snippet/detail', {id: snippet._id}]"
+    *ngFor="let snippet of list$ | async | paginate: { id: paginateId, itemsPerPage: itemsPerPage, currentPage: page, totalItems: total }"
+  >
+    <div class="mail-contnet">
+      <span class="label label-success pull-right">{{ snippet.cantViews }}</span>
+      <h5>
+        {{ snippet.title }}
+      </h5>
+      <div class="clearfix"></div>
+    </div>
+  </a>
+</div>
+<div class="pagination_content pull-right">
+  <div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
+  <pagination-controls (pageChange)="getPage($event)" id="{{paginateId}}"></pagination-controls>
+</div>

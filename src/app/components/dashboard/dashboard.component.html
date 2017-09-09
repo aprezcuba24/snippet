@@ -1,3 +1,43 @@
-<p>
-  dashboard works!
-</p>
+<layout>
+  <ol breadcrumb class="breadcrumb">
+    <li><a href="#">Dashboard</a></li>
+    <li class="active">Ecom-Dashboard</li>
+  </ol>
+  <div content>
+    <div class="col-md-12">
+      <div class="white-box">
+        <form #searchForm="ngForm">
+          <select2
+              name="tags"
+              [value_property]="'_id'"
+              [text_property]="'name'"
+              [items]="tags$|async"
+              [(ngModel)]="tagsSelected"
+              (onChange)="search()"
+              [options]="{placeholder: 'Search...'}"
+          ></select2>
+        </form>
+      </div>
+    </div>
+    <div [hidden]="!show_search_list" class="col-md-12">
+      <div content class="white-box">
+        <app-list [method]="searchMethod"></app-list>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div content class="white-box">
+        <h3 class="box-title">More Used</h3>
+        <app-list [method]="moreUsedMethod"></app-list>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div content class="white-box">
+        <h3 class="box-title">Newest</h3>
+        <app-list [method]="moreNewestthod"></app-list>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</layout>

@@ -5,10 +5,11 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon.ico">
-  <title>Elite Admin - is a responsive admin template</title>
+  <title>Snippets</title>
+  <base href="/">
   <!-- Bootstrap Core CSS -->
   <link href="assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Menu CSS -->
@@ -23,9 +24,13 @@
   <link href="assets/css/style.css" rel="stylesheet">
   <!-- color CSS -->
   <link href="assets/css/colors/default.css" id="theme" rel="stylesheet">
+  <link href="assets/css/main.css" id="theme" rel="stylesheet">
+  <link href="assets/select2/select2.min.css" id="theme" rel="stylesheet">
+  <link href="assets/prismjs/prism.css" id="theme" rel="stylesheet">
+  <script src="assets/plugins/jquery/dist/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
 </head>
 
-<body>
+<body id="snippet_app">
   <app-root>
     <div class="preloader">
       <div class="cssload-speeding-wheel"></div>
@@ -33,7 +38,6 @@
   </app-root>
   <!-- /#wrapper -->
   <!-- jQuery -->
-  <script src="assets/plugins/jquery/dist/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
   <!-- Bootstrap Core JavaScript -->
   <script src="assets/bootstrap/dist/js/bootstrap.min.js"></script>
   <!-- Menu Plugin JavaScript -->
@@ -48,7 +52,7 @@
   <!--Morris JavaScript -->
   <script src="assets/plugins/morrisjs/morris.js"></script>
   <!-- Custom Theme JavaScript -->
-  <script src="assets/plugins/custom.min.js"></script>
+  <script src="assets/plugins/custom.js"></script>
   <!-- Sparkline chart JavaScript -->
   <script src="assets/plugins/jquery-sparkline/jquery.sparkline.min.js"></script>
   <script src="assets/plugins/jquery-sparkline/jquery.charts-sparkline.js"></script>

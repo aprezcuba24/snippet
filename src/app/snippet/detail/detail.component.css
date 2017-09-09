@@ -1,0 +1,11 @@
+.label {
+    font-size: 15px;
+    padding: 3px 12px 4px 12px;
+    display: inline-block;
+    text-align: center;
+    margin-right: 5px;
+}
+
+hr {
+    margin-top: 10px;
+}
