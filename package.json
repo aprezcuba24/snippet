@@ -1,10 +1,10 @@
 {
-  "name": "electron-angular-boilerplate",
-  "productName": "Electron Angular Boilerplate",
-  "description": "Boilerplate for Angular2 apps with electron",
-  "version": "0.0.0",
+  "name": "aprezcuba24/snippet",
+  "productName": "Snippet app",
+  "description": "Application for snippet of code",
+  "version": "0.0.1",
   "license": "MIT",
-  "author": "Liam Stokinger",
+  "author": "Renier Ricardo Figueredo",
   "main": "main.js",
   "scripts": {
     "tsc": "tsc --outDir 'dist/server-temp' -p tsconfig.electron.json && rm -rf dist/server && mkdir dist/server && cp -r dist/server-temp/src/server/* dist/server && rm -rf dist/environments && mkdir dist/environments && cp -r dist/server-temp/src/environments/* dist/environments  && rm -rf dist/server-temp/",
@@ -21,7 +21,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/common": "^4.0.0",
     "@angular/compiler": "^4.0.0",
@@ -61,13 +61,9 @@
     "karma-coverage-istanbul-reporter": "^0.2.0",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
-    "ngrx-store-logger": "^0.2.0",
     "protractor": "~5.1.0",
     "ts-node": "~2.0.0",
     "tslint": "~4.5.0",
     "typescript": "~2.2.0"
-  },
-  "optionalDependencies": {
-    "camo": "^0.12.3"
   }
 }

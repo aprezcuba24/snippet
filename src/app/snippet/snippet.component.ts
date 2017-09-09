@@ -1,3 +1,7 @@
+/**
+ * Componente que gestiona la lógica de la interfaz de snippet
+ */
+
 import {Observable, Subscription} from 'rxjs/Rx';
 import {SnippetInterface, TagInterface} from './../domain_types';
 import {Component, OnInit, ChangeDetectionStrategy, OnDestroy} from '@angular/core';
@@ -14,16 +18,16 @@ import {TagStoreService} from "../services/store/tag-store.service";
 })
 export class SnippetComponent implements OnInit, OnDestroy {
 
-  action: string;
+  action: string; // Acción seleccionada por el ususario, puede ser: detail, edit o new
   newEntity: SnippetInterface = {
     title: '',
     body: '',
     tags: '',
   };
-  entity$: Observable<SnippetInterface>;
-  ready$: Observable<boolean>;
-  tags$: Observable<TagInterface[]>;
-  private subscription: Subscription;
+  entity$: Observable<SnippetInterface>; // Observable que tiene la entidad que se debe mostrar o editar
+  ready$: Observable<boolean>; // Observable que cuando sea true ya todos los datos están listo y se puede mostrar los componentes secundarios
+  tags$: Observable<TagInterface[]>; // Arreglo de tags para el multiselect
+  private subscription: Subscription; // Objeto para guardar una subscripción a un observable para al destruir el componente poder cerrar el canal
 
   constructor(
     private route: ActivatedRoute,
@@ -35,31 +39,31 @@ export class SnippetComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.tags$ = this.tagStore.all$;
-    let params$ = this.route.paramMap
+    this.tags$ = this.tagStore.all$; //Obtengo el observable con los tags del servidor
+    let params$ = this.route.paramMap // Obtengo el observable con los parámetros de entrada
       .map((params: ParamMap) => {
-        return {
+        return { // Obtengo la acción y el id
           action: this.route.snapshot.data['action'],
           id: params.get('id'),
         }
       })
-      .do((data: any) => this.action = data.action)
+      .do((data: any) => this.action = data.action) // guardo la acción en un campo del componente
     ;
-    let new$ = params$
-      .filter((data: any) => data.action == 'new')
-      .switchMap(() => this.tags$)
-      .map(() => true)
+    let new$ = params$ // Observable para procesar la acción new
+      .filter((data: any) => data.action == 'new') // continuo en el flujo si es la acción new
+      .map(() => true) // Ya está lista el proceso de la acción new
     ;
-    this.entity$ = params$
+    this.entity$ = params$ // Observable para procesar la acción que no sea new, es decir que sea edit o detail
       .filter((data: any) => data.action != 'new')//edit, detail
-      .switchMap((data: any) => this.snippetStore.get$(data.id, data.action == 'detail'))
-      .publishReplay(1)
+      .switchMap((data: any) => this.snippetStore.get$(data.id, data.action == 'detail')) // Cambio el flujo por el que busca la entidad en la  base de datos y si la acción es detail incremento la cantidad de visitas
+      .publishReplay(1) // Estos dos métodos me permiten crear una cache de los datos para evitar hacer varias consultas al servidor
       .refCount()
     ;
-    this.ready$ = Observable.race(new$, Observable.combineLatest(this.entity$, this.tags$))
+    // Espero por el primero de los dos observables, si es new o editar-detail y espero por los tags
+    this.ready$ = Observable.combineLatest(this.tags$, Observable.race(new$, this.entity$))
       .map(() => true)
     ;
-    this.subscription = this.ready$
+    this.subscription = this.ready$ // Cuando esté listo informo que la pantalla está lista
       .subscribe(() => {
           this.appStore.setPageReady(true);
       })
@@ -67,9 +71,13 @@ export class SnippetComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subscription.unsubscribe(); // cierro el canal cuando destrullo el componente
   }
 
+  /**
+   * Método para salvar o crear snippets
+   * @param $event
+     */
   save($event: SnippetInterface) {
     this.snippetStore.save$($event).subscribe((entity: SnippetInterface) => {
       this.router.navigate(['/snippet/detail', {

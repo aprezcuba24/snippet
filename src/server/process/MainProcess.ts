@@ -1,3 +1,7 @@
+/**
+ * Clase principal que inicializa todos los servicios, en esto momento solo inicia la base de datos
+ */
+
 import { Observable } from 'rxjs/Rx';
 import { IpcService } from '../IpcService';
 import { Injectable } from '@angular/core';
@@ -11,8 +15,8 @@ export class MainProcess {
     private ipc: IpcService
   ) {
     this.ipc.process(
-      'init',
-      this.connectBd$.bind(this)
+      'init', // Escucho el mensaje init desde el cliente
+      this.connectBd$.bind(this) //Respondo con un observable que inicia la base de datos
     );
   }
 
@@ -24,9 +28,9 @@ export class MainProcess {
       dbpath: server.dbpath,
     });
 
-    return Observable.fromPromise(mongod.open())
-      .flatMap(() => Observable.fromPromise(connect(server.db_connection))
-        .map(() => true)
+    return Observable.fromPromise(mongod.open()) //Inicio la base de datos
+      .flatMap(() => Observable.fromPromise(connect(server.db_connection)) // Me conecto a la base de datos
+        .map(() => true) // Si todo fue bien le mando true al cliente indicando que ya está conectado
       )
     ;
   }

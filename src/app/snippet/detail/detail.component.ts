@@ -1,3 +1,7 @@
+/**
+ * Muestra un snippet en pantalla
+ */
+
 import { SnippetInterface } from './../../domain_types';
 import {
   ChangeDetectionStrategy, Component, Input, OnInit, ViewChild, ElementRef,
