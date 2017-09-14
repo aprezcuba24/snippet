@@ -43,3 +43,10 @@ Thumbs.db
 
 # release-builds
 /release-builds
+
+#snap
+/snap/parts
+/snap/prime
+/snap/stage
+/snap/*.snap
+/snap/snap/.snapcraft

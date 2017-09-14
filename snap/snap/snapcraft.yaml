@@ -1,0 +1,37 @@
+name: snippet
+version: '0.1'
+summary: Snippet app for programers
+description: |
+  This app is to store snippet code for programers.
+
+grade: devel # must be 'stable' to release into candidate/stable channels
+confinement: devmode # use 'strict' once you have the right plugs and slots
+
+apps:
+  snippet:
+    command: npm run-script electron
+
+  snippet-mongo:
+    command: env LC_ALL=C mongod --bind_ip 127.0.0.1 --smallfiles --dbpath=$SNAP_USER_COMMON
+    daemon: simple
+    plugs: [network, network-bind]
+
+parts:
+  snippet:
+    plugin: nodejs
+    source: https://github.com/aprezcuba24/snippet.git
+    after: [mongodb]
+
+  mongodb:
+    source: https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1604-3.2.7.tgz
+    plugin: dump
+    stage-packages:
+        - libssl1.0.0
+    stage:
+        - usr
+        - bin
+        - lib
+    snap:
+        - usr
+        - bin
+        - lib

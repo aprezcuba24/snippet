@@ -2,7 +2,7 @@ import { Document } from 'camo';
 import {Tag} from "./tag";
 
 class SnippetClass extends Document { // Todas las entiedades deben heredar Document
-  
+
     // Defino los campos de la clase
     _id: string;
     createdAt: Date;
