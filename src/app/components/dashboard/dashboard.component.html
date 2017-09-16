@@ -25,14 +25,14 @@
         <div class="clearfix"></div>
       </div>
     </div>
-    <div class="col-md-6">
+    <div [hidden]="show_search_list" class="col-md-6">
       <div content class="white-box">
         <h3 class="box-title">More Used</h3>
         <app-list [method]="moreUsedMethod"></app-list>
         <div class="clearfix"></div>
       </div>
     </div>
-    <div class="col-md-6">
+    <div [hidden]="show_search_list" class="col-md-6">
       <div content class="white-box">
         <h3 class="box-title">Newest</h3>
         <app-list [method]="moreNewestthod"></app-list>
