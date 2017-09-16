@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import * as marked from 'marked';
 import '../prism.languages';
+import {BehaviorSubject} from "rxjs/Rx";
 declare let Prism:any;
 
 @Component({
@@ -19,10 +20,13 @@ declare let Prism:any;
 })
 export class FormComponent implements AfterViewChecked {
 
+  @Input() action: string;
   @Input() model:SnippetInterface;
   @Input() tags:TagInterface[];
   @Output() onSaved = new EventEmitter<SnippetInterface>();
   @ViewChild("markdown") markdown:ElementRef;
+  fullscreen$ = new BehaviorSubject(false);
+  private fullscreen = false;
 
   constructor() {
   }
@@ -34,5 +38,11 @@ export class FormComponent implements AfterViewChecked {
   ngAfterViewChecked() {
     this.markdown.nativeElement.innerHTML = marked(this.model.body);
     Prism.highlightAll(false);
+  }
+
+  toogleFullscreen(event) {
+    event.preventDefault();
+    this.fullscreen = !this.fullscreen;
+    this.fullscreen$.next(this.fullscreen);
   }
 }
