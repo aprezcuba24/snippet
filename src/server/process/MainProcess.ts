@@ -21,24 +21,17 @@ export class MainProcess {
   }
 
   connectBd$() {
-    return Observable.fromPromise(connect(server.db_connection))
-      .take(1)
-      .map(() => true)
-      ;
-  }
+    const Mongod = require('mongod');
+    const mongod = new Mongod({
+      port: server.mongoPort,
+      bin: server.mongod,
+      dbpath: server.dbpath,
+    });
 
-  // connectBd$V() {
-  //   const Mongod = require('mongod');
-  //   const mongod = new Mongod({
-  //     port: server.mongoPort,
-  //     bin: server.mongod,
-  //     dbpath: server.dbpath,
-  //   });
-  //
-  //   return Observable.fromPromise(mongod.open()) //Inicio la base de datos
-  //     .flatMap(() => Observable.fromPromise(connect(server.db_connection)) // Me conecto a la base de datos
-  //       .map(() => true) // Si todo fue bien le mando true al cliente indicando que ya está conectado
-  //     )
-  //   ;
-  // }
+    return Observable.fromPromise(mongod.open()) //Inicio la base de datos
+      .flatMap(() => Observable.fromPromise(connect(server.db_connection)) // Me conecto a la base de datos
+        .map(() => true) // Si todo fue bien le mando true al cliente indicando que ya está conectado
+      )
+    ;
+  }
 }

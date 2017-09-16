@@ -50,3 +50,5 @@ Thumbs.db
 /snap/stage
 /snap/*.snap
 /snap/snap/.snapcraft
+
+/data

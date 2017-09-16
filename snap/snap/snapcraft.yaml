@@ -9,29 +9,30 @@ confinement: devmode # use 'strict' once you have the right plugs and slots
 
 apps:
   snippet:
-    command: npm run-script electron
-
-  snippet-mongo:
-    command: env LC_ALL=C mongod --bind_ip 127.0.0.1 --smallfiles --dbpath=$SNAP_USER_COMMON
-    daemon: simple
-    plugs: [network, network-bind]
+    command: desktop-launch $SNAP/Snippet
+    plugs:
+      - home
+      - x11
+      - unity7
+      - browser-support
+      - network
+      - gsettings
+      - pulseaudio
+      - opengl
 
 parts:
   snippet:
-    plugin: nodejs
-    source: https://github.com/aprezcuba24/snippet.git
-    after: [mongodb]
-
-  mongodb:
-    source: https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1604-3.2.7.tgz
     plugin: dump
+    source: ../release-builds/Snippet-linux-x64
     stage-packages:
-        - libssl1.0.0
-    stage:
-        - usr
-        - bin
-        - lib
-    snap:
-        - usr
-        - bin
-        - lib
+      - libnotify4
+      - libappindicator1
+      - libxtst6
+      - libnss3
+      - libxss1
+      - fontconfig-config
+      - gconf2
+      - libasound2
+      - pulseaudio
+    after:
+      - desktop-glib-only
