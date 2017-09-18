@@ -1,4 +1,4 @@
-<a *ngIf="action == 'edit' && !(fullscreen$|async)" title="Download JSON" (click)="generateDownloadJson($event)" [href]="downloadJsonHref" download="download.json" class="actions btn btn-primary btn-rounded pull-right">
+<a *ngIf="action == 'edit' && !(fullscreen$|async)" title="Export snippet" (click)="generateDownloadJson($event)" [href]="downloadJsonHref" download="download.json" class="actions btn btn-primary btn-rounded pull-right">
   <i class="icon-share-alt"></i>
 </a>
 <a *ngIf="action == 'edit' && !(fullscreen$|async)" [routerLink]="['/snippet/detail', {id: model._id }]" class="actions btn btn-primary btn-rounded pull-right">
