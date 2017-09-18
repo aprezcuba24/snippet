@@ -20,7 +20,7 @@ if (!fs.existsSync(dbDir)) {
 
 let mongoPrograms = {
   linux: 'mongod',
-  darwin: 'mongod',
+  darwin: 'mongod_osx',
   win32: 'mongod.exe',
 };
 
