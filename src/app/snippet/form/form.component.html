@@ -1,12 +1,18 @@
+<a *ngIf="action == 'edit' && !(fullscreen$|async)" title="Download JSON" (click)="generateDownloadJson($event)" [href]="downloadJsonHref" download="download.json" class="actions btn btn-primary btn-rounded pull-right">
+  <i class="icon-share-alt"></i>
+</a>
+<a *ngIf="action == 'edit' && !(fullscreen$|async)" [routerLink]="['/snippet/detail', {id: model._id }]" class="actions btn btn-primary btn-rounded pull-right">
+  <i class="icon-eye"></i>
+</a>
 <form #snippetForm="ngForm" (ngSubmit)="onSubmit()">
-  <div [class.has-error]="!(title.valid || title.pristine)" class="form-group">
+  <div [hidden]="fullscreen$|async" [class.has-error]="!(title.valid || title.pristine)" class="form-group">
     <label class="control-label col-md-12">Title</label>
     <div class="col-md-12">
       <input [(ngModel)]="model.title" name="title" required class="form-control" placeholder="Title of snippet" type="text" #title="ngModel">
     </div>
     <div class="clearfix"></div>
   </div>
-  <div [class.has-error]="!(tagsWidget.valid || tagsWidget.pristine)" class="form-group">
+  <div [hidden]="fullscreen$|async" [class.has-error]="!(tagsWidget.valid || tagsWidget.pristine)" class="form-group">
     <label class="control-label col-md-12">Tags</label>
     <div class="col-md-12">
       <select2 name="tags" [options]="{tags: true, placeholder: 'tags'}" [value_property]="'name'" [text_property]="'name'" [items]="tags" required #tagsWidget="ngModel" [(ngModel)]="model.tags"></select2>
@@ -15,6 +21,10 @@
   </div>
   <div [class.has-error]="!(body.valid || body.pristine)" class="form-group">
     <div class="col-md-12">
+      <a href="#" class="pull-right" (click)="toogleFullscreen($event)">
+        <i class="icon-size-fullscreen" [hidden]="fullscreen$|async"></i>
+        <i class="icon-size-actual" [hidden]="!(fullscreen$|async)"></i>
+      </a>
       <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
           <a href="#edit" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="false">
@@ -33,16 +43,16 @@
       </ul>
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="edit">
-          <textarea [(ngModel)]="model.body" #body="ngModel" required name="body" class="form-control" rows="15"></textarea>
+          <textarea [(ngModel)]="model.body" #body="ngModel" [class.fullscreen]="fullscreen$|async" required name="body" class="form-control" rows="15"></textarea>
         </div>
-        <div role="tabpanel" class="tab-pane" id="show">
+        <div role="tabpanel" [class.fullscreen]="fullscreen$|async" class="tab-pane" id="show">
           <div #markdown></div>
         </div>
       </div>
     </div>
     <div class="clearfix"></div>
   </div>
-  <div class="col-md-12">
+  <div [hidden]="fullscreen$|async" class="col-md-12">
     <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
   </div>
   <div class="clearfix"></div>

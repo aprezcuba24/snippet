@@ -3,7 +3,7 @@
  */
 
 import {
-  Component, forwardRef, Input, OnInit, ElementRef, ViewChild, AfterContentInit, Output,
+  Component, forwardRef, Input, ElementRef, ViewChild, AfterContentInit, Output,
   EventEmitter
 } from '@angular/core';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
@@ -91,14 +91,25 @@ export class Select2Component implements ControlValueAccessor, AfterContentInit 
     return this.innerValue$
       .filter(items => items != null)
       .flatMap(items => Observable.from(items))
-      .findIndex((item:TagInterface) => item._id == tag._id)
-      .map(index => index != -1)
+      .flatMap((item: TagInterface) => {
+        if (tag._id == null) {
+          return Observable.of(true);
+        }
+        return Observable.of(item._id == tag._id)
+      })
       ;
   }
 
   writeValue(value:any) {
     value = value || [];
-    this.innerValue$.next(value);
+    Observable.from(value)
+      .do((item: any) => {
+        if (item._id == null) {
+          this.items.push(item);
+        }
+      })
+      .subscribe(() => this.innerValue$.next(value))
+    ;
   }
 
   registerOnChange(fn:any) {

@@ -38,6 +38,11 @@
           <!-- /.dropdown-messages -->
         </li>
         <li>
+          <a href="#" class="dropdown-toggle waves-effect waves-light" data-toggle="modal" data-target="#importModal" aria-expanded="false">
+            <i class="ti-import"></i>
+          </a>
+        </li>
+        <li>
           <a routerLink="/snippet/new" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">
             <i class="icon-plus"></i>
           </a>
@@ -57,4 +62,31 @@
     <footer class="footer text-center"> 2017 &copy; Renier Ricardo Figueredo (aprezcuba24@gmail.com) </footer>
   </div>
   <!-- /#page-wrapper -->
+
+  <div #importModal id="importModal" class="modal fade bs-example-modal in" tabindex="-1" role="dialog"
+       aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title" id="myLargeModalLabel">Import Snippet</h4>
+        </div>
+        <div class="modal-body">
+          <p>
+            <input #importFile type="file">
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">
+            Close
+          </button>
+          <button type="button" (click)="importSnippet()" class="btn btn-danger waves-effect waves-light">
+            Inport
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+

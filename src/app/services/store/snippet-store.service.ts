@@ -6,6 +6,7 @@ import {IpcClientService} from './../ipc.client.service';
 import {Injectable} from '@angular/core';
 import {SnippetInterface, TagInterface} from "../../domain_types";
 import {BehaviorSubject, Observable} from "rxjs/Rx";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Injectable()
 export class SnippetStoreService {
@@ -14,8 +15,34 @@ export class SnippetStoreService {
   private _lastViews$ = new BehaviorSubject<SnippetInterface[]>([]); // Para trasmitir los últimos snippets vistos
   private _lastViews:SnippetInterface[] = []; // Almacena los últimos 10 snippets vistos
   static readonly CANT_LAST_VIEW:number = 10; // Solo voy a mostrar en el menú 10 snippets, los últimos vistos
+  private _entityImport: string;
 
-  constructor(private ipc:IpcClientService) {
+  constructor(
+    private ipc:IpcClientService,
+    private sanitizer: DomSanitizer
+  ) {
+  }
+
+  set entityImport(value) {
+    this._entityImport = value;
+  }
+
+  get entityImport() {
+    return JSON.parse(this._entityImport);
+  }
+
+  generateDownloadJson(entity: SnippetInterface) {
+    let tags = entity.tags.map((item: TagInterface) => {
+      item._id = null;
+      return item;
+    });
+    let temp: SnippetInterface = {
+      title: entity.title,
+      body: entity.body,
+      tags: tags,
+    };
+    let theJSON = JSON.stringify(temp);
+    return this.sanitizer.bypassSecurityTrustUrl("data:text/json;charset=UTF-8," + encodeURIComponent(theJSON));
   }
 
   getMoreUsed$(data) {

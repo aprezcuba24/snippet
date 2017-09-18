@@ -6,9 +6,20 @@
   padding: 7px 12px;
   border: 1px solid #e4e7ea;
 }
+#show.fullscreen {
+  min-height: calc(100vh - 315px);
+}
 .toggleMaxMin {
   padding-top: 10px;
 }
 .body {
   height: 100%;
+}
+
+textarea.fullscreen {
+  height: calc(100vh - 315px);
+}
+
+.actions {
+  margin-right: 10px;
 }
