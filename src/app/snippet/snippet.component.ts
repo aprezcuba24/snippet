@@ -22,7 +22,7 @@ export class SnippetComponent implements OnInit, OnDestroy {
   newEntity: SnippetInterface = {
     title: '',
     body: '',
-    tags: '',
+    tags: [],
   };
   entity$: Observable<SnippetInterface>; // Observable que tiene la entidad que se debe mostrar o editar
   ready$: Observable<boolean>; // Observable que cuando sea true ya todos los datos están listo y se puede mostrar los componentes secundarios
@@ -53,6 +53,11 @@ export class SnippetComponent implements OnInit, OnDestroy {
       .filter((data: any) => data.action == 'new') // continuo en el flujo si es la acción new
       .map(() => true) // Ya está lista el proceso de la acción new
     ;
+    let import$ = params$ // Observable para procesar la acción import
+      .filter((data: any) => data.action == 'import') // continuo en el flujo si es la acción import
+      .do(() => this.newEntity = this.snippetStore.entityImport) //pongo el objeto para el form
+      .map(() => true) // Ya está lista el proceso de la acción import
+    ;
     this.entity$ = params$ // Observable para procesar la acción que no sea new, es decir que sea edit o detail
       .filter((data: any) => data.action != 'new')//edit, detail
       .switchMap((data: any) => this.snippetStore.get$(data.id, data.action == 'detail')) // Cambio el flujo por el que busca la entidad en la  base de datos y si la acción es detail incremento la cantidad de visitas
@@ -60,7 +65,7 @@ export class SnippetComponent implements OnInit, OnDestroy {
       .refCount()
     ;
     // Espero por el primero de los dos observables, si es new o editar-detail y espero por los tags
-    this.ready$ = Observable.combineLatest(this.tags$, Observable.race(new$, this.entity$))
+    this.ready$ = Observable.combineLatest(this.tags$, Observable.race(new$, import$, this.entity$))
       .map(() => true)
     ;
     this.subscription = this.ready$ // Cuando esté listo informo que la pantalla está lista

@@ -2,7 +2,7 @@
   <div content>
     <div content class="white-box">
       <app-snippet-detail *ngIf="action == 'detail' && ready$|async" [model]="entity$|async"></app-snippet-detail>
-      <app-snippet-form *ngIf="action == 'new' && ready$|async" [model]="newEntity" [tags]="tags$|async" (onSaved)="save($event)"></app-snippet-form>
+      <app-snippet-form *ngIf="(action == 'new' || action == 'import') && ready$|async" [model]="newEntity" [tags]="tags$|async" (onSaved)="save($event)"></app-snippet-form>
       <app-snippet-form *ngIf="action == 'edit' && ready$|async" [action]="action" [model]="entity$|async" [tags]="tags$|async" (onSaved)="save($event)"></app-snippet-form>
     </div>
   </div>

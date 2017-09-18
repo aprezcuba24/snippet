@@ -6,7 +6,7 @@ export interface SnippetInterface extends Entity<SnippetInterface> {
     _id?: string,
     title: String,
     body: String,
-    tags: string|string[],
+    tags: TagInterface[],
     cantViews?: number,
 }
 export interface TagInterface extends Entity<TagInterface> {

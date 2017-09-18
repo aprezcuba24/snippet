@@ -10,6 +10,8 @@ import {
 import * as marked from 'marked';
 import '../prism.languages';
 import {BehaviorSubject} from "rxjs/Rx";
+import {SafeUrl} from "@angular/platform-browser/public_api";
+import {SnippetStoreService} from "../../services/store/snippet-store.service";
 declare let Prism:any;
 
 @Component({
@@ -20,15 +22,20 @@ declare let Prism:any;
 })
 export class FormComponent implements AfterViewChecked {
 
-  @Input() action: string;
+  @Input() action:string;
   @Input() model:SnippetInterface;
   @Input() tags:TagInterface[];
   @Output() onSaved = new EventEmitter<SnippetInterface>();
   @ViewChild("markdown") markdown:ElementRef;
   fullscreen$ = new BehaviorSubject(false);
   private fullscreen = false;
+  downloadJsonHref:SafeUrl;
 
-  constructor() {
+  constructor(private snippetStore:SnippetStoreService) {
+  }
+
+  generateDownloadJson() {
+    this.downloadJsonHref = this.snippetStore.generateDownloadJson(this.model);
   }
 
   onSubmit() {

@@ -19,3 +19,7 @@
 textarea.fullscreen {
   height: calc(100vh - 315px);
 }
+
+.actions {
+  margin-right: 10px;
+}
