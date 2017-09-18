@@ -1,7 +1,7 @@
 <div class="">
   <h2 class="m-b-0 m-t-0">
     {{ model.title }}
-    <a class="actions btn btn-primary btn-rounded pull-right" title="Download JSON" (click)="generateDownloadJson($event)" [href]="downloadJsonHref" download="download.json">
+    <a class="actions btn btn-primary btn-rounded pull-right" title="Export snippet" (click)="generateDownloadJson($event)" [href]="downloadJsonHref" download="download.json">
       <i class="icon-share-alt"></i>
     </a>
     <a [routerLink]="['/snippet/edit', {id: model._id}]" class="actions btn btn-primary btn-rounded pull-right">

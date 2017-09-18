@@ -14,7 +14,7 @@
       </div>
       <ul class="nav navbar-top-links navbar-right pull-right">
         <li *ngIf="hasLastView$|async" class="dropdown">
-          <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#" aria-expanded="true">
+          <a class="dropdown-toggle waves-effect waves-light" title="Last snippets shown" data-toggle="dropdown" href="#" aria-expanded="true">
             <i class="icon-layers"></i>
             <div class="">
               <span class="heartbit"></span>
@@ -38,12 +38,12 @@
           <!-- /.dropdown-messages -->
         </li>
         <li>
-          <a href="#" class="dropdown-toggle waves-effect waves-light" data-toggle="modal" data-target="#importModal" aria-expanded="false">
+          <a href="#" class="dropdown-toggle waves-effect waves-light" title="Import from file" data-toggle="modal" data-target="#importModal" aria-expanded="false">
             <i class="ti-import"></i>
           </a>
         </li>
         <li>
-          <a routerLink="/snippet/new" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">
+          <a routerLink="/snippet/new" title="Create new snippet" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">
             <i class="icon-plus"></i>
           </a>
         </li>
