@@ -8,8 +8,11 @@ grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
 
 apps:
+  desktop:
+    command: env LC_ALL=C desktop-launch $SNAP/Snippet
+    desktop: Snippet.desktop
   snippet:
-    command: desktop-launch $SNAP/Snippet
+    command: env LC_ALL=C desktop-launch $SNAP/Snippet
     plugs:
       - home
       - x11

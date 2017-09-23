@@ -10,6 +10,9 @@ let homeDir = path.join(OS.homedir(), '.snippet');
 if (isDev) {
   homeDir = path.join(process.cwd(), 'data');
 }
+if (process.env.SNAP_USER_COMMON) {//Estoy dentro de una app snap
+  homeDir = process.env.SNAP_USER_COMMON;
+}
 if (!fs.existsSync(homeDir)) {
   fs.mkdirSync(homeDir);
 }
@@ -24,8 +27,13 @@ let mongoPrograms = {
   win32: 'mongod.exe',
 };
 
+let ROOT_DIR = process.cwd();
+if (process.env.SNAP) {//Estoy dentro de una app snap
+  ROOT_DIR = process.env.SNAP;
+}
+let unpackDir = path.join(ROOT_DIR, 'unpackDir');
 let mongodProgram = mongoPrograms[OS.platform()];
-let mongoCommand = path.join(process.cwd(), 'unpackDir', mongodProgram);
+let mongoCommand = path.join(unpackDir, mongodProgram);
 
 let mongoPort = 27117;
 
