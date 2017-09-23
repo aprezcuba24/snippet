@@ -7,4 +7,4 @@ Exec=env LC_ALL=C desktop-launch $SNAP/Snippet
 Terminal=false
 Type=Application
 Version=0.4
-#Icon=${SNAP}/usr/share/pixmaps/hello-unity.svg
+Icon=${SNAP}/unpackDir/1024x1024.png
