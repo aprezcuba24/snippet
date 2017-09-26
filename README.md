@@ -22,6 +22,15 @@ Angular2 y Electron, admemás de un uso intensivo de RxJs
 
 ## Intalación
 
+Si quiere usarla simplemente puede instalar la aplicación para usarla y tiene linux lo puede hacer a partir 
+de la aplicción snap. Para hacerlo descargue el último release ``snippet_0.1_amd64.snap`` y luego ejecute el siguiente
+comando.
+
+```bash
+sudo snap install snippet_0.1_amd64.snap --devmode
+```
+Si la quiere usar como desarrollador haga lo siguiente
+
 Clone el repositorio localmente
 
 ``` bash

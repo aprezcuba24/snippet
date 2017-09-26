@@ -15,7 +15,9 @@ function createWindow() {
   require('./dist/server');
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800, height: 600
+    width: 800,
+    height: 600,
+    icon: path.join(__dirname, 'src/assets/app-icons/png/64x64.png')
   });
   // mainWindow.setMenu(null);
   mainWindow.maximize();

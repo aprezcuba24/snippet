@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Snippet
+X-GNOME-FullName=Snippet
+Comment=Unity Integration Showcase
+Categories=GNOME;Utility;
+Exec=env LC_ALL=C desktop-launch $SNAP/Snippet
+Terminal=false
+Type=Application
+Version=0.4
+Icon=${SNAP}/unpackDir/1024x1024.png
